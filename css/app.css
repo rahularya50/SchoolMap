@@ -1,0 +1,29 @@
+﻿html, body {
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    position: relative
+}
+
+span {
+    font-style: italic;
+}
+
+.selector {
+    width: 100%;
+}
+
+#result{
+	font-family: sans-serif;
+}
+
+#container{
+	margin: 40px;
+}
+
+#id_map {
+    width: 100%;
+    height: 100%;
+}

@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>TypeScript HTML App</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, scalable=no'
+          name='viewport'/>
+    <meta name="viewport" content="width=device-width"/>
+
+    <link rel="stylesheet" href="./css/app.css" type="text/css"/>
+
+    <!--  BOOTSTRAP!!!! -->
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- jQuery!!! -->
+    <script src="extns/http_ajax.googleapis.com_ajax_libs_jquery_3.1.0_jquery.js"></script>
+
+    <!-- Select2!!! -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+    <script src="extns/http_cdnjs.cloudflare.com_ajax_libs_select2_4.0.3_js_select2.js"></script>
+
+    <script type="text/javascript" src="extns/http_cdnjs.cloudflare.com_ajax_libs_require.js_2.3.2_require.js"
+            integrity="sha256-uvyqD81XGEqlTzEGkl+5L73IUlWTXtdLhfnUG5n3FbE=" crossorigin="anonymous"
+            data-main="./js/app"></script>
+</head>
+<body>
+<div id="container">
+    <h1>KGV Path Finder (pre-alpha) NOT FOR RELEASE</h1>
+    <br>
+
+    <fieldset id="inp_form">
+        <legend>Input Desired Route</legend>
+        <div class="form-group">
+            <div id="origin-select">
+                <label>
+                    Origin:
+                </label>
+                <br/>
+                <select class="selector" id="id_start_location"></select>
+            </div>
+            <div id="destination-select">
+                <br/><br/>
+                <label>
+                    Destination:
+                </label>
+                <br>
+                <select class="selector" id="id_end_location"></select>
+            </div>
+        </div>
+        <p class="help-block"> We do not guarantee that the following information is accurate.</p>
+    </fieldset>
+</div>
+<br>
+<div id="result"></div>
+<br/>
+<div id="map">
+    <object data="./svg/Peel%20Block%20Floor%201.svg" id="id_map" type="image/svg+xml"></object>
+</div>
+<div class=".navbar-fixed-bottom">
+    <button type="button" id="previous_btn" class="btn">Previous</button>
+    <button type="button" id="next_btn" class="btn">Next</button>
+</div>
+</body>
+</html>

@@ -4,7 +4,7 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 
-/// <reference path="./jquery.d.ts.temp"/>
+/// <reference path="./jquery.d.ts"/>
 
 interface Select2QueryOptions {
     term?: string;

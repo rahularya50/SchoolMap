@@ -4,7 +4,8 @@
 
 body {
     font-family: 'Segoe UI', sans-serif;
-    position: relative
+    position: relative;
+    height: 100vh;
 }
 
 span {
@@ -15,15 +16,36 @@ span {
     width: 100%;
 }
 
-#result{
-	font-family: sans-serif;
-}
-
-#container{
-	margin: 40px;
+#result {
+    font-family: sans-serif;
 }
 
 #id_map {
     width: 100%;
     height: 100%;
+}
+
+#main {
+    width: 100%;
+    position: absolute;
+    top: 10vh;
+    bottom: 10vh;
+    height: 80vh;
+    z-index: auto;
+}
+
+#top {
+    height: 10vh;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+}
+
+#bottom {
+    height: 10vh;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
 }

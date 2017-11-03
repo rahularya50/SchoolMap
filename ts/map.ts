@@ -2,17 +2,21 @@
 let svgDoc: Document;
 let graphNodes: { [index: string]: HTMLElement };
 
+let svgAnimationTag : SVGElement;
+
 window.onload = function () {
     svg = <HTMLIFrameElement>document.getElementById("id_map");
 
     $(svg).ready(function () {
         svgDoc = svg.contentDocument;
         genNodes(svgDoc, svg, []);
+        // svgDoc.append(
+        //     "<animate attributeName = \"viewBox\" begin = \"0\" dur = \"1s\" from = \"0 0 300 300\" to = \"0 0 650 390\" fill = \"freeze\"/>"
     });
 };
 
-export function focusMap(start: string, end: string) {
-    (<any> focusMapOnPoints)(...getLocation(start), ...getLocation(end), 100);
+export function focusMap(start: string, end: string, ratio: number) {
+    (<any> focusMapOnPoints)(...getLocation(start), ...getLocation(end), 50, ratio);
 }
 
 function focusMapOnPoints(startX: number, startY: number, endX: number, endY: number, padding: number) {
@@ -21,10 +25,15 @@ function focusMapOnPoints(startX: number, startY: number, endX: number, endY: nu
     let minX = Math.min(startX, endX);
     let minY = Math.min(startY, endY);
 
-    console.log(`${minX - padding} ${minY - padding} ${maxX - minX + padding} ${maxY - minY + padding}`);
+    svgDoc.getElementsByTagName("svg")[0].setAttribute("viewBox",
+            `${minX - padding}, ${minY - padding}, ${maxX - minX + 2*padding}, ${maxY - minY + 2*padding}`);
 
     svgDoc.getElementsByTagName("svg")[0]
-          .setAttribute("viewBox", `${minX - padding} ${minY - padding} ${maxX - minX + padding * 2} ${maxY - minY + padding * 2}`);
+        .setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+
+    // svgDoc.getElementsByTagName("svg")[0]
+    //       .setAttribute("viewBox", `${xBottom}, ${yBottom}, ${xTop}, ${yTop}`);
 }
 
 function getSvgNode(place: string): SVGUseElement {

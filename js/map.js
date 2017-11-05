@@ -1,12 +1,11 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", "motion"], function (require, exports, motion) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     let svgs = [];
     let svgDocs = [];
-    let graphNodes = {};
     let currVisible = 0;
     const FLOORS = 2;
-    window.onload = function () {
+    window.onload = () => {
         for (let i = 0; i < FLOORS; i++) {
             svgs.push(document.getElementById(`id_map_${i + 1}`));
             svgDocs.push(null);
@@ -25,7 +24,7 @@ define(["require", "exports"], function (require, exports) {
         let maxY = Math.max(startY, endY);
         let minX = Math.min(startX, endX);
         let minY = Math.min(startY, endY);
-        svgDocs[floor].getElementsByTagName("svg")[0].setAttribute("viewBox", `${minX - padding}, ${minY - padding}, ${maxX - minX + 2 * padding}, ${maxY - minY + 2 * padding}`);
+        motion.animate(svgDocs[floor].getElementsByTagName("svg")[0], (minX + maxX) / 2, (minY + maxY) / 2, maxX - minX + 2 * padding, maxY - minY + 2 * padding);
         svgDocs[floor].getElementsByTagName("svg")[0]
             .setAttribute("preserveAspectRatio", "xMidYMid meet");
     }

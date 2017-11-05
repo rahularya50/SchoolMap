@@ -2,8 +2,15 @@
 import * as graph from "./graph";
 import {Staircase} from "./elements";
 
-class Move { constructor(public edge: graph.Edge, public place: graph.Place, public length: number) { } }
-export class Route { constructor(public moves: Array<Move>, public place: graph.Place, public distance: number, public origin: graph.Place) { } }
+class Move {
+    constructor(public edge: graph.Edge, public place: graph.Place, public length: number) {
+    }
+}
+
+export class Route {
+    constructor(public moves: Array<Move>, public place: graph.Place, public distance: number, public origin: graph.Place) {
+    }
+}
 
 export function path_finder(start_place: graph.Place, end_place: graph.Place): Route {
     let explored = new Map<graph.Place, Route>();

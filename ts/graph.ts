@@ -13,14 +13,16 @@ export class Edge {
 
     dist_between(a: Place, b: Place): number {
         try {
-            let startNodeCoords = map.getLocation(a.id.split(" ").join("_"));
-            let endNodeCoords = map.getLocation(b.id.split(" ").join("_"));
+            let startNodeName = a.id.split(" ").join("_");
+            let endNodeName = b.id.split(" ").join("_");
+            let startNodeCoords = map.getLocation(startNodeName, endNodeName);
+            let endNodeCoords = map.getLocation(endNodeName, startNodeName);
 
             return Math.sqrt(
                 (startNodeCoords[0] - endNodeCoords[0]) ** 2 +
                 (startNodeCoords[1] - endNodeCoords[1]) ** 2) + 1;
         } catch (e) {
-            return 10000000000;
+            return (Math.abs(this.places.indexOf(a) - this.places.indexOf(b)) * 500) + 1;
         }
     }
 

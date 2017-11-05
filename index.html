@@ -33,7 +33,10 @@
 </head>
 <body>
     <div id="top">
-        <h1>KGV Path Finder (pre-alpha) NOT FOR RELEASE</h1>
+        <h1>KGV Path Finder</h1>
+    </div>
+
+    <div id="main">
         <br>
         <fieldset id="inp_form">
             <legend>Input Desired Route</legend>
@@ -49,21 +52,21 @@
                     <label>
                         Destination:
                     </label>
+                    <br />
                     <select class="selector" id="id_end_location"></select>
                 </div>
             </div>
             <p class="help-block"> We do not guarantee that the following information is accurate.</p>
         </fieldset>
-    </div>
-
-    <div id="main">
-        <object data="./svg/F1.svg" id="id_map" type="image/svg+xml"></object>
+        <object data="./svg/F1.svg" class="svg_map" id="id_map_1" type="image/svg+xml"></object>
+        <object data="./svg/F2.svg" class="svg_map" id="id_map_2" type="image/svg+xml"></object>
     </div>
 
     <div id="bottom">
         <div id="result"></div>
         <button type="button" id="previous_btn" class="btn">Previous</button>
         <button type="button" id="next_btn" class="btn">Next</button>
+        <button type="button" id="back_btn" class="btn">Back</button>
     </div>
 
 </body>

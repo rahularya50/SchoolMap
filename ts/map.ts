@@ -1,60 +1,80 @@
-﻿let svg: HTMLIFrameElement;
-let svgDoc: Document;
-let graphNodes: { [index: string]: HTMLElement };
+﻿import get = Reflect.get;
 
-let svgAnimationTag : SVGElement;
+let svgs: HTMLIFrameElement[] = [];
+let svgDocs: Document[] = [];
+let graphNodes: { [index: string]: HTMLElement } = {};
+
+let currVisible = 0;
+
+const FLOORS = 2;
 
 window.onload = function () {
-    svg = <HTMLIFrameElement>document.getElementById("id_map");
-
-    $(svg).ready(function () {
-        svgDoc = svg.contentDocument;
-        genNodes(svgDoc, svg, []);
-        // svgDoc.append(
-        //     "<animate attributeName = \"viewBox\" begin = \"0\" dur = \"1s\" from = \"0 0 300 300\" to = \"0 0 650 390\" fill = \"freeze\"/>"
-    });
+    for (let i = 0; i < FLOORS; i++) {
+        svgs.push(<HTMLIFrameElement>document.getElementById(`id_map_${i+1}`));
+        svgDocs.push(null);
+        $(svgs[i]).ready(function () {
+            svgDocs[i] = svgs[i].contentDocument;
+        });
+    }
 };
 
-export function focusMap(start: string, end: string, ratio: number) {
-    (<any> focusMapOnPoints)(...getLocation(start), ...getLocation(end), 50, ratio);
+export function focusMap(start: string, end: string) {
+    let floor = Math.max(getFloor(start), getFloor(end));
+    (<any> focusMapOnPoints)(...getLocation(start, end), ...getLocation(end, start), floor, 50);
 }
 
-function focusMapOnPoints(startX: number, startY: number, endX: number, endY: number, padding: number) {
+function focusMapOnPoints(startX: number, startY: number, endX: number, endY: number, floor: number, padding: number) {
     let maxX = Math.max(startX, endX);
     let maxY = Math.max(startY, endY);
     let minX = Math.min(startX, endX);
     let minY = Math.min(startY, endY);
 
-    svgDoc.getElementsByTagName("svg")[0].setAttribute("viewBox",
+    svgDocs[floor].getElementsByTagName("svg")[0].setAttribute("viewBox",
             `${minX - padding}, ${minY - padding}, ${maxX - minX + 2*padding}, ${maxY - minY + 2*padding}`);
 
-    svgDoc.getElementsByTagName("svg")[0]
+    svgDocs[floor].getElementsByTagName("svg")[0]
         .setAttribute("preserveAspectRatio", "xMidYMid meet");
-
-
-    // svgDoc.getElementsByTagName("svg")[0]
-    //       .setAttribute("viewBox", `${xBottom}, ${yBottom}, ${xTop}, ${yTop}`);
 }
 
-function getSvgNode(place: string): SVGUseElement {
-    return svgDoc.getElementById(place) as any as SVGUseElement;
+function getSvgNode(place: string, hint: string): SVGUseElement {
+    return svgDocs[Math.max(getFloor(place), getFloor(hint))].getElementById(place) as any as SVGUseElement;
+}
+
+export function getFloor(place: string): number {
+    let out = -1;
+    for (let i = 0; i < FLOORS; i++) {
+        if (svgDocs[i].getElementById(place) !== null) {
+            if (out != -1) {
+                return -1;
+            }
+            // console.log(`${place} found on floor ${i}`)
+            out = i;
+        }
+    }
+    return out;
 }
 
 export function drawEdge(start: string, end: string) {
-    console.log(start, end);
-    drawSVGEdge(getSvgNode(start), getSvgNode(end), svgDoc.getElementById("Edges"));
-}
-
-export function clearMap() {
-    $(svgDoc.getElementById("Edges")).empty();
-    for (let name of Object.keys(graphNodes)) {
-        console.log(name);
-        $(svgDoc.getElementById(name)).css('visibility', 'hidden');
+    let floor = Math.max(getFloor(start), getFloor(end));
+    if (floor != -1 && (getFloor(start) == -1 || getFloor(end) == -1 || getFloor(start) == getFloor(end))) {
+        console.log(`Drawing edge between ${start} and ${end}!`);
+        drawSVGEdge(getSvgNode(start, end), getSvgNode(end, start), svgDocs[floor].getElementById("Edges"));
+        // showFloor(getFloor(start));
     }
 }
 
-export function getLocation(place: string): [number, number] {
-    return getCoords(getSvgNode(place));
+export function clearMap() {
+    for (let i = 0; i < FLOORS; i++) {
+        $(svgDocs[i].getElementById("Edges")).empty();
+    }
+    // for (let name of Object.keys(graphNodes)) {
+    //     console.log(name);
+    //     (getSvgNode(name) as any).css('visibility', 'hidden');
+    // }
+}
+
+export function getLocation(place: string, hint: string): [number, number] {
+    return getCoords(getSvgNode(place, hint));
 }
 
 function getCoords(place: SVGUseElement): [number, number] {
@@ -75,10 +95,12 @@ function drawSVGEdge(start: SVGUseElement, end: SVGUseElement, svg: Node): void 
     $(end).css('visibility', 'visible');
 }
 
-function genNodes(svgDoc: Document, svg: HTMLIFrameElement, names: Array<string>) {
-    graphNodes = {};
-    // for (let name of names) {
-    //     graphNodes[name] = svgDoc.getElementById(name);
-    //     $(graphNodes[name]).css('visibility', 'hidden');
-    // }
+export function showFloor(floor: number): void {
+    if (currVisible != -1) {
+        $(svgs[currVisible]).css("visibility", "hidden");
+    }
+    if (floor != -1) {
+        $(svgs[floor]).css("visibility", "visible");
+    }
+    currVisible = floor;
 }

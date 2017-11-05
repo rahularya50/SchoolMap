@@ -38,7 +38,6 @@ locations["ICT3"].add_edge(ict_parallel_corridor);
 locations["Link Block Intersection Upper"] = new graph.Place("the intersection", [corridors[1]], "place", "Link Block Intersection Upper");
 corridors[1].places.splice(5, 0, locations["Link Block Intersection Upper"]);
 
-
 locations["Link Block Intersection Lower"] = new graph.Place("the intersection", [corridors[0]], "place", "Link Block Intersection Lower");
 corridors[0].places.push(locations["Link Block Intersection Lower"]);
 
@@ -81,7 +80,7 @@ for (let i = 1; i < 7; i++) {
     graph.makeEdge(s1.places[i], s2.places[i], corridors[i-1]);
 }
 
-graph.makeEdge(null, s2.places[0], locations["GLT"].edges[0]);
+// graph.makeEdge(null, s2.places[0], locations["GLT"].edges[0]);  TODO: What even is this?
 
 // Make the Language Block! TODO: Add Language Block extension + second staircase
 
@@ -142,6 +141,9 @@ let s3 = new graph.Edge([s2_0, s2_1], "Peel Block Staircase 2", graph.Direction.
 
 s1_0.add_edge(s1);
 s1_1.add_edge(s1);
+
+locations["S10"] = s1_0;
+locations["S11"] = s1_1;
 
 locations["Foyer"].add_edge(s2);
 locations["LRC Canteen"].add_edge(s2);
@@ -227,7 +229,7 @@ graph.makeEdge(new elements.InvisiblePlace("Language Block End Node", []), null,
 
 graph.makeEdge(locations["the ICT Helpdesk"].edges[0].places[0], piazza_bl, new graph.Edge([], "path", graph.Direction.Right));
 
-graph.makeEdge(piazza_br, locations["GLT"], new graph.Edge([], "stairs", graph.Direction.Down));
+graph.makeEdge(piazza_br, locations["GLT"], new graph.Edge([], "space", graph.Direction.Down));
 graph.makeEdge(piazza_br, d_3, new graph.Edge([], "space", graph.Direction.Right));
 graph.makeEdge(piazza_br, staircases["Science Block 2"][0], new graph.Edge([], "path", graph.Direction.Up));
 

@@ -27,7 +27,7 @@ export class Staircase extends graph.Edge {
     }
 
     dist_between(a: graph.Place, b: graph.Place): number {
-        return (Math.abs(this.places.indexOf(a) - this.places.indexOf(b)) * 10) + 1;
+        return (Math.abs(this.places.indexOf(a) - this.places.indexOf(b)) * 500) + 1;
     }
 }
 

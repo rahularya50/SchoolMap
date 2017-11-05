@@ -4671,8 +4671,6 @@
 	
 		<line fill="none" stroke="#000000" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="2975.652" y1="1486.693" x2="3034.025" y2="1486.693"/>
 	
-		<line fill="none" stroke="#000000" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="2975.464" y1="1391.633" x2="2975.652" y2="1391.633"/>
-	
 		<line fill="none" stroke="#000000" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="2975.652" y1="1486.693" x2="2975.464" y2="1486.693"/>
 	<polyline fill="none" stroke="#000000" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="
 		3034.371,1486.693 3092.931,1486.693 3092.931,1391.633 	"/>

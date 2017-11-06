@@ -20,14 +20,17 @@ function focusMap(route: graph_operations.Route, index: number) {
     floor = Math.max(map.getFloor(endName),
         map.getFloor(startName));
 
-    if (floor != -1 &&
-        (map.getFloor(startName) == -1 ||
+    if (floor != -1 && (
+            map.getFloor(startName) == -1 ||
             map.getFloor(endName) == -1 ||
-            map.getFloor(startName) == map.getFloor(endName))) {
+            map.getFloor(startName) == map.getFloor(endName)
+        )) {
         map.showFloor(floor);
         console.log(`Floors are ${map.getFloor(startName)} and ${map.getFloor(endName)}`);
         console.log(`Focusing on ${startName} and ${endName}`);
         map.focusMap(startName, endName);
+    } else {
+
     }
 
     console.log(floor);

@@ -13,6 +13,8 @@ window.onload = () => {
         svgDocs.push(null);
         $(svgs[i]).ready(function () {
             svgDocs[i] = svgs[i].contentDocument;
+            let hammer = new Hammer(svgDocs[i].getElementsByTagName("svg")[0]);
+            hammer.on("pan", motion.handleTouchEvent);
         });
     }
 };
@@ -68,10 +70,6 @@ export function clearMap() {
     for (let i = 0; i < FLOORS; i++) {
         $(svgDocs[i].getElementById("Edges")).empty();
     }
-    // for (let name of Object.keys(graphNodes)) {
-    //     console.log(name);
-    //     (getSvgNode(name) as any).css('visibility', 'hidden');
-    // }
 }
 
 export function getLocation(place: string, hint: string): [number, number] {

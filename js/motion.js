@@ -1,3 +1,4 @@
+///<reference path="jquery.d.ts"/>
 define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -9,17 +10,9 @@ define(["require", "exports"], function (require, exports) {
             this.height = height;
         }
     }
-    class Change {
-        constructor(xCenter, yCenter, width, height) {
-            this.xCenter = xCenter;
-            this.yCenter = yCenter;
-            this.width = width;
-            this.height = height;
-        }
-    }
     let currState = null;
-    let currVel = new Change(0, 0, 0, 0);
     let goalState = null;
+    let stateBeforeDrag = null;
     let activeSVG = null;
     let prevTimeStamp = 0;
     function animate(svg, xCenter, yCenter, width, height) {
@@ -28,6 +21,7 @@ define(["require", "exports"], function (require, exports) {
     }
     exports.animate = animate;
     function animationStep(timestamp) {
+        prevTimeStamp = timestamp;
         if (goalState !== null) {
             if (currState === null) {
                 currState = Object.assign({}, goalState);
@@ -59,15 +53,37 @@ define(["require", "exports"], function (require, exports) {
                     currState.height += speed;
                 }
             }
-            if (activeSVG !== null) {
-                render(currState);
-            }
+        }
+        if (activeSVG !== null && currState !== null) {
+            render(currState);
         }
         requestAnimationFrame(animationStep);
     }
     function render(state) {
         activeSVG.setAttribute("viewBox", `${state.xCenter - state.width / 2}, ${state.yCenter - state.height / 2}, ${state.width}, ${state.height}`);
     }
+    function handleTouchEvent(ev) {
+        let isFirst = false;
+        if (ev.type === "pan") {
+            if (stateBeforeDrag === null) {
+                console.log("Begin drag " + prevTimeStamp);
+                isFirst = true;
+                stateBeforeDrag = Object.assign({}, currState);
+            }
+            goalState = null;
+            let scaleFactor = Math.max(currState.width / $("#id_map_1").width(), currState.height / $("#id_map_1").height());
+            currState.xCenter = stateBeforeDrag.xCenter - ev.deltaX * scaleFactor;
+            currState.yCenter = stateBeforeDrag.yCenter - ev.deltaY * scaleFactor;
+            if (ev.isFinal) {
+                stateBeforeDrag = null;
+                console.log("End drag " + prevTimeStamp);
+                if (isFirst) {
+                    console.log(ev);
+                }
+            }
+        }
+    }
+    exports.handleTouchEvent = handleTouchEvent;
     animationStep(0);
 });
 //# sourceMappingURL=motion.js.map

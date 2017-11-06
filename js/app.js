@@ -11,14 +11,15 @@ define(["require", "exports", "./graph_operations", "./build", "./map"], functio
         let startName = edgePairs[index][0].id.split(" ").join("_");
         let endName = edgePairs[index][1].id.split(" ").join("_");
         floor = Math.max(map.getFloor(endName), map.getFloor(startName));
-        if (floor != -1 &&
-            (map.getFloor(startName) == -1 ||
-                map.getFloor(endName) == -1 ||
-                map.getFloor(startName) == map.getFloor(endName))) {
+        if (floor != -1 && (map.getFloor(startName) == -1 ||
+            map.getFloor(endName) == -1 ||
+            map.getFloor(startName) == map.getFloor(endName))) {
             map.showFloor(floor);
             console.log(`Floors are ${map.getFloor(startName)} and ${map.getFloor(endName)}`);
             console.log(`Focusing on ${startName} and ${endName}`);
             map.focusMap(startName, endName);
+        }
+        else {
         }
         console.log(floor);
         document.getElementById("result").innerHTML = moveDescs[index];

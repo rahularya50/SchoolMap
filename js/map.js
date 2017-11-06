@@ -11,6 +11,8 @@ define(["require", "exports", "motion"], function (require, exports, motion) {
             svgDocs.push(null);
             $(svgs[i]).ready(function () {
                 svgDocs[i] = svgs[i].contentDocument;
+                let hammer = new Hammer(svgDocs[i].getElementsByTagName("svg")[0]);
+                hammer.on("pan", motion.handleTouchEvent);
             });
         }
     };
@@ -58,10 +60,6 @@ define(["require", "exports", "motion"], function (require, exports, motion) {
         for (let i = 0; i < FLOORS; i++) {
             $(svgDocs[i].getElementById("Edges")).empty();
         }
-        // for (let name of Object.keys(graphNodes)) {
-        //     console.log(name);
-        //     (getSvgNode(name) as any).css('visibility', 'hidden');
-        // }
     }
     exports.clearMap = clearMap;
     function getLocation(place, hint) {

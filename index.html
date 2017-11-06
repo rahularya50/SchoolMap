@@ -5,7 +5,7 @@
     <meta charset="utf-8"/>
     <title>TypeScript HTML App</title>
 
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, scalable=no'
+    <meta content='width=device-width, height=device-height initial-scale=1.0, maximum-scale=1.0, user-scalable=0, scalable=no'
           name='viewport'/>
     <meta name="viewport" content="width=device-width"/>
 
@@ -33,6 +33,26 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
+    <fieldset id="inp_form">
+        <legend>Input Desired Route</legend>
+        <div class="form-group">
+            <div id="origin-select">
+                <label>
+                    Origin:
+                </label>
+                <br/>
+                <select class="selector" id="id_start_location"></select>
+            </div>
+            <div id="destination-select">
+                <label>
+                    Destination:
+                </label>
+                <br />
+                <select class="selector" id="id_end_location"></select>
+            </div>
+        </div>
+        <p class="help-block"> We do not guarantee that the following information is accurate.</p>
+    </fieldset>
     <div id="top">
         <div id="result-img">
             <img class="arrow-img" src="img/placeholder_arrow.png">
@@ -41,26 +61,6 @@
     </div>
 
     <div id="main">
-        <fieldset id="inp_form">
-            <legend>Input Desired Route</legend>
-            <div class="form-group">
-                <div id="origin-select">
-                    <label>
-                        Origin:
-                    </label>
-                    <br/>
-                    <select class="selector" id="id_start_location"></select>
-                </div>
-                <div id="destination-select">
-                    <label>
-                        Destination:
-                    </label>
-                    <br />
-                    <select class="selector" id="id_end_location"></select>
-                </div>
-            </div>
-            <p class="help-block"> We do not guarantee that the following information is accurate.</p>
-        </fieldset>
         <object data="./svg/F1.svg" class="svg_map" id="id_map_1" type="image/svg+xml"></object>
         <object data="./svg/F2.svg" class="svg_map" id="id_map_2" type="image/svg+xml"></object>
     </div>

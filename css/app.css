@@ -57,7 +57,6 @@ span {
     position: absolute;
     top: 20vh;
     bottom: 10vh;
-    height: 70vh;
     z-index: auto;
     overflow: hidden;
 }
@@ -69,7 +68,7 @@ span {
 #top {
     height: 20vh;
     width: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     z-index: 2;
     padding: 0;
@@ -79,7 +78,7 @@ span {
 #bottom {
     height: 10vh;
     width: 100%;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     z-index: 2;
     box-shadow: 0 -10px 5px #888888;

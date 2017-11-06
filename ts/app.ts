@@ -35,13 +35,14 @@ function focusMap(route: graph_operations.Route, index: number) {
 
     console.log(floor);
 
-    document.getElementById("result").innerHTML = moveDescs[index];
+    document.getElementById("result-text").innerHTML = moveDescs[index];
 }
 
 function init() {
     $("#destination-select").css("display", "none");
     $("#map").css("display", "");
-    $("#result").css("display", "none");
+    $("#result-text").css("display", "none");
+    $("#top").css("display", "none");
 
     let locations = build.locations; //A list of location strings
 
@@ -62,7 +63,8 @@ function init() {
 
     $("#id_end_location").on("change", () => {
         $("#map").css("display", "");
-        $("#result").css("display", "");
+        $("#result-text").css("display", "");
+        $("#top").css("display", "");
 
         let origin = $("#id_start_location").find("option:selected").text();
         let destination = $("#id_end_location").find("option:selected").text();
@@ -98,8 +100,9 @@ function init() {
         $("#inp_form").css("display", "");
         $("#destination-select").css("display", "none");
         $("#map").css("display", "");
-        $("#result").css("display", "none");
+        $("#result-text").css("display", "none");
         $("#origin-select").css("display", "");
+        $("#top").css("display", "none");
     });
 
 }

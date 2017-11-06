@@ -22,12 +22,13 @@ define(["require", "exports", "./graph_operations", "./build", "./map"], functio
         else {
         }
         console.log(floor);
-        document.getElementById("result").innerHTML = moveDescs[index];
+        document.getElementById("result-text").innerHTML = moveDescs[index];
     }
     function init() {
         $("#destination-select").css("display", "none");
         $("#map").css("display", "");
-        $("#result").css("display", "none");
+        $("#result-text").css("display", "none");
+        $("#top").css("display", "none");
         let locations = build.locations; //A list of location strings
         let index = 0;
         let route = null;
@@ -41,7 +42,8 @@ define(["require", "exports", "./graph_operations", "./build", "./map"], functio
         });
         $("#id_end_location").on("change", () => {
             $("#map").css("display", "");
-            $("#result").css("display", "");
+            $("#result-text").css("display", "");
+            $("#top").css("display", "");
             let origin = $("#id_start_location").find("option:selected").text();
             let destination = $("#id_end_location").find("option:selected").text();
             route = graph_operations.path_finder(locations[origin], locations[destination]);
@@ -67,8 +69,9 @@ define(["require", "exports", "./graph_operations", "./build", "./map"], functio
             $("#inp_form").css("display", "");
             $("#destination-select").css("display", "none");
             $("#map").css("display", "");
-            $("#result").css("display", "none");
+            $("#result-text").css("display", "none");
             $("#origin-select").css("display", "");
+            $("#top").css("display", "none");
         });
     }
     init();

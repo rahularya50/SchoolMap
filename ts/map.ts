@@ -14,7 +14,8 @@ window.onload = () => {
         $(svgs[i]).ready(function () {
             svgDocs[i] = svgs[i].contentDocument;
             let hammer = new Hammer(svgDocs[i].getElementsByTagName("svg")[0]);
-            hammer.on("pan", motion.handleTouchEvent);
+            hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+            hammer.on("pan panstart panend", motion.handleTouchEvent);
         });
     }
 };

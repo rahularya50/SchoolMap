@@ -56,14 +56,16 @@ define(["require", "exports", "./graph_operations", "./build", "./map"], functio
             index = 0;
             focusMap(route, index);
         });
-        $("#previous_btn").on("click", () => {
+        $("#previous_btn").on("click", prev);
+        function prev() {
             index = Math.max(index - 1, 0);
             focusMap(route, index);
-        });
-        $("#next_btn").on("click", () => {
+        }
+        $("#next_btn").on("click", next);
+        function next() {
             index = Math.min(index + 1, route.moves.length - 1);
             focusMap(route, index);
-        });
+        }
         $("#back_btn").on("click", () => {
             map.showFloor(-1);
             $("#inp_form").css("display", "");
@@ -73,6 +75,9 @@ define(["require", "exports", "./graph_operations", "./build", "./map"], functio
             $("#origin-select").css("display", "");
             $("#top").css("display", "none");
         });
+        let swipeHammer = new Hammer($("#top")[0]);
+        swipeHammer.on("swipeleft", ev => next());
+        swipeHammer.on("swiperight", ev => prev());
     }
     init();
 });

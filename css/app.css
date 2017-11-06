@@ -95,7 +95,10 @@ span {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+}
 
+.btn:active {
+    color: white;
 }
 
 #back_btn {

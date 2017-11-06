@@ -237,12 +237,12 @@ graph.makeEdge(piazza_tr, peel_link_center, new graph.Edge([], "path", graph.Dir
 
 graph.makeEdge(piazza_tl, staircases["Link Block 1"][0], new graph.Edge([], "path", graph.Direction.Up));
 
-graph.makeEdge(piazza_bl, piazza_br, new graph.Edge([], "space", graph.Direction.Right));
-graph.makeEdge(piazza_bl, piazza_tl, new graph.Edge([], "space", graph.Direction.Up));
-graph.makeEdge(piazza_bl, piazza_tr, new graph.Edge([], "space", graph.Direction.Right));
-graph.makeEdge(piazza_br, piazza_tl, new graph.Edge([], "space", graph.Direction.Left));
-graph.makeEdge(piazza_br, piazza_tr, new graph.Edge([], "space", graph.Direction.Up));
-graph.makeEdge(piazza_tl, piazza_tr, new graph.Edge([], "space", graph.Direction.Right));
+graph.makeEdge(piazza_bl, piazza_br, new graph.Edge([], "piazza", graph.Direction.Right));
+graph.makeEdge(piazza_bl, piazza_tl, new graph.Edge([], "piazza", graph.Direction.Up));
+graph.makeEdge(piazza_bl, piazza_tr, new graph.Edge([], "piazza", graph.Direction.Right));
+graph.makeEdge(piazza_br, piazza_tl, new graph.Edge([], "piazza", graph.Direction.Left));
+graph.makeEdge(piazza_br, piazza_tr, new graph.Edge([], "piazza", graph.Direction.Up));
+graph.makeEdge(piazza_tl, piazza_tr, new graph.Edge([], "piazza", graph.Direction.Right));
 
 // Add the PE Rooms!
 let pe_intersection_bl = new elements.InvisiblePlace("PE Intersection BL", []);

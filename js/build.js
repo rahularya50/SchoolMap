@@ -156,12 +156,12 @@ define(["require", "exports", "./graph", "./elements"], function (require, expor
     graph.makeEdge(piazza_br, staircases["Science Block 2"][0], new graph.Edge([], "path", 0 /* Up */));
     graph.makeEdge(piazza_tr, peel_link_center, new graph.Edge([], "path", 1 /* Right */));
     graph.makeEdge(piazza_tl, staircases["Link Block 1"][0], new graph.Edge([], "path", 0 /* Up */));
-    graph.makeEdge(piazza_bl, piazza_br, new graph.Edge([], "space", 1 /* Right */));
-    graph.makeEdge(piazza_bl, piazza_tl, new graph.Edge([], "space", 0 /* Up */));
-    graph.makeEdge(piazza_bl, piazza_tr, new graph.Edge([], "space", 1 /* Right */));
-    graph.makeEdge(piazza_br, piazza_tl, new graph.Edge([], "space", 3 /* Left */));
-    graph.makeEdge(piazza_br, piazza_tr, new graph.Edge([], "space", 0 /* Up */));
-    graph.makeEdge(piazza_tl, piazza_tr, new graph.Edge([], "space", 1 /* Right */));
+    graph.makeEdge(piazza_bl, piazza_br, new graph.Edge([], "piazza", 1 /* Right */));
+    graph.makeEdge(piazza_bl, piazza_tl, new graph.Edge([], "piazza", 0 /* Up */));
+    graph.makeEdge(piazza_bl, piazza_tr, new graph.Edge([], "piazza", 1 /* Right */));
+    graph.makeEdge(piazza_br, piazza_tl, new graph.Edge([], "piazza", 3 /* Left */));
+    graph.makeEdge(piazza_br, piazza_tr, new graph.Edge([], "piazza", 0 /* Up */));
+    graph.makeEdge(piazza_tl, piazza_tr, new graph.Edge([], "piazza", 1 /* Right */));
     // Add the PE Rooms!
     let pe_intersection_bl = new elements.InvisiblePlace("PE Intersection BL", []);
     let pe_intersection_br = new elements.InvisiblePlace("PE Intersection BR", []);

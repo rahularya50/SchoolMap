@@ -24,7 +24,7 @@ define(["require", "exports", "./map"], function (require, exports, map) {
                     (startNodeCoords[1] - endNodeCoords[1]) ** 2) + 1;
             }
             catch (e) {
-                return (Math.abs(this.places.indexOf(a) - this.places.indexOf(b)) * 500) + 1;
+                return (Math.abs(this.places.indexOf(a) - this.places.indexOf(b)) * 500) + 100;
             }
         }
         path_sign(a, b) {

@@ -1,4 +1,4 @@
-define(["require", "exports", "./str_utils"], function (require, exports, str_utils) {
+define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class Move {
@@ -49,10 +49,9 @@ define(["require", "exports", "./str_utils"], function (require, exports, str_ut
         return explored.get(end_place);
     }
     exports.path_finder = path_finder;
-    function gen_desc(route) {
+    function gen_turns(route) {
         let output = [];
         for (let i = 0; i < route.moves.length; i++) {
-            let prefix = "";
             if (i != 0) {
                 let edge = route.moves[i].edge;
                 let prev_edge = route.moves[i - 1].edge;
@@ -65,15 +64,16 @@ define(["require", "exports", "./str_utils"], function (require, exports, str_ut
                 if (prev_edge.type == "Staircase") {
                     prev_direction += 2;
                 }
-                prefix = str_utils.dir_gen(prev_direction, direction);
+                output.push((direction - prev_direction + 12) % 4);
+                // prefix = str_utils.dir_gen(prev_direction, direction);
             }
-            let temp = prefix + str_utils.message(i == 0 ? route.origin : route.moves[i - 1].place, route.moves[i].place, route.moves[i].edge);
-            output.push(temp[0].toUpperCase() + temp.slice(1));
+            // let temp = prefix + str_utils.message(i == 0 ? route.origin : route.moves[i - 1].place, route.moves[i].place, route.moves[i].edge);
+            // output.push(temp[0].toUpperCase() + temp.slice(1));
         }
-        output.push("You have arrived!");
+        // output.push("You have arrived!");
         return output;
     }
-    exports.gen_desc = gen_desc;
+    exports.gen_turns = gen_turns;
     function edgePair(route) {
         let prev = route.origin;
         let output = [];

@@ -11,79 +11,51 @@ define(["require", "exports"], function (require, exports) {
         }
     }
     let currState = null;
-    let goalState = null;
     let stateBeforeDrag = null;
     let activeSVG = null;
+    let inDrag = false;
     let prevTimeStamp = 0;
     function animate(svg, xCenter, yCenter, width, height) {
         activeSVG = svg;
-        goalState = new State(xCenter, yCenter, width, height);
+        TweenMax.to(svg, 1.5, {
+            attr: { viewBox: `${xCenter - width / 2}, ${yCenter - height / 2}, ${width}, ${height}` },
+            ease: Circ.easeOut
+        });
     }
     exports.animate = animate;
-    function animationStep(timestamp) {
-        prevTimeStamp = timestamp;
-        if (goalState !== null) {
-            if (currState === null) {
-                currState = Object.assign({}, goalState);
-            }
-            else {
-                const speed = 10;
-                if (currState.xCenter - goalState.xCenter > speed) {
-                    currState.xCenter -= speed;
-                }
-                else if (currState.xCenter - goalState.xCenter < -speed) {
-                    currState.xCenter += speed;
-                }
-                if (currState.yCenter - goalState.yCenter > speed) {
-                    currState.yCenter -= speed;
-                }
-                else if (currState.yCenter - goalState.yCenter < -speed) {
-                    currState.yCenter += speed;
-                }
-                if (currState.width - goalState.width > speed) {
-                    currState.width -= speed;
-                }
-                else if (currState.width - goalState.width < -speed) {
-                    currState.width += speed;
-                }
-                if (currState.height - goalState.height > speed) {
-                    currState.height -= speed;
-                }
-                else if (currState.height - goalState.height < -speed) {
-                    currState.height += speed;
-                }
-            }
-        }
-        if (activeSVG !== null && currState !== null) {
-            render(currState);
-        }
-        requestAnimationFrame(animationStep);
-    }
     function render(state) {
         activeSVG.setAttribute("viewBox", `${state.xCenter - state.width / 2}, ${state.yCenter - state.height / 2}, ${state.width}, ${state.height}`);
     }
     function handleTouchEvent(ev) {
+        inDrag = true;
+        TweenMax.killTweensOf(activeSVG);
         let isFirst = false;
         if (ev.type === "pan") {
             if (stateBeforeDrag === null) {
                 console.log("Begin drag " + prevTimeStamp);
                 isFirst = true;
-                stateBeforeDrag = Object.assign({}, currState);
+                let rawViewBox = activeSVG.getAttribute("viewBox");
+                console.log(rawViewBox);
+                let [cornerX, cornerY, width, height] = rawViewBox.split(", ").map(parseFloat);
+                stateBeforeDrag = new State(cornerX + width / 2, cornerY + height / 2, width, height);
+                currState = Object.assign({}, stateBeforeDrag);
             }
-            goalState = null;
             let scaleFactor = Math.max(currState.width / $("#id_map_1").width(), currState.height / $("#id_map_1").height());
             currState.xCenter = stateBeforeDrag.xCenter - ev.deltaX * scaleFactor;
             currState.yCenter = stateBeforeDrag.yCenter - ev.deltaY * scaleFactor;
             if (ev.isFinal) {
                 stateBeforeDrag = null;
+                inDrag = false;
                 console.log("End drag " + prevTimeStamp);
                 if (isFirst) {
-                    console.log(ev);
                 }
             }
+            console.log(ev);
+            console.log(currState);
+            render(currState);
         }
     }
     exports.handleTouchEvent = handleTouchEvent;
-    animationStep(0);
 });
+// animationStep(0); 
 //# sourceMappingURL=motion.js.map

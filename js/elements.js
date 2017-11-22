@@ -26,7 +26,7 @@ define(["require", "exports", "./graph", "./str_utils"], function (require, expo
             return 0;
         }
         dist_between(a, b) {
-            return (Math.abs(this.places.indexOf(a) - this.places.indexOf(b)) * 500) + 1;
+            return (Math.abs(this.places.indexOf(a) - this.places.indexOf(b)) * 500) + 100;
         }
     }
     exports.Staircase = Staircase;

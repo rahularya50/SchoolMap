@@ -1,11 +1,13 @@
-define(["require", "exports", "./graph_operations", "./build", "./map"], function (require, exports, graph_operations, build, map) {
+define(["require", "exports", "./graph_operations", "./build", "./map", "./str_utils"], function (require, exports, graph_operations, build, map, str_utils_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     // Testing!
     //graph_operations.path_finder takes in two Places and outputs a Route
     //gen_desc takes in a Route and output a String[] of directions.
     function focusMap(route, index) {
-        let moveDescs = graph_operations.gen_desc(route);
+        let turns = graph_operations.gen_turns(route);
+        let moveDescs = str_utils_1.gen_desc(route);
+        moveDescs.push("You have arrived!");
         let edgePairs = graph_operations.edgePair(route);
         let floor;
         let startName = edgePairs[index][0].id.split(" ").join("_");
@@ -18,6 +20,28 @@ define(["require", "exports", "./graph_operations", "./build", "./map"], functio
             console.log(`Floors are ${map.getFloor(startName)} and ${map.getFloor(endName)}`);
             console.log(`Focusing on ${startName} and ${endName}`);
             map.focusMap(startName, endName);
+            let url;
+            if (index == 0) {
+            }
+            else {
+                let delta = turns[index];
+                console.log(delta);
+                switch (delta) {
+                    case 0 /* Up */:
+                        url = "";
+                        break;
+                    case 3 /* Left */:
+                        url = "img/left.svg";
+                        break;
+                    case 1 /* Right */:
+                        url = "img/right.svg";
+                        break;
+                    case 2 /* Down */:
+                        url = "img/uturn.svg";
+                        break;
+                }
+            }
+            $("#arrow-img").attr("src", url);
         }
         else {
         }

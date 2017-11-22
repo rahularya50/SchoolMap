@@ -1,0 +1,29 @@
+<component name="libraryTable">
+  <library name="Generated files" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/js/build.min.js" />
+        <item url="file://$PROJECT_DIR$/js/map.min.js" />
+        <item url="file://$PROJECT_DIR$/js/str_utils.min.js" />
+        <item url="file://$PROJECT_DIR$/js/elements.min.js" />
+        <item url="file://$PROJECT_DIR$/js/test.min.js" />
+        <item url="file://$PROJECT_DIR$/js/graph_operations.min.js" />
+        <item url="file://$PROJECT_DIR$/js/app.min.js" />
+        <item url="file://$PROJECT_DIR$/js/graph.min.js" />
+        <item url="file://$PROJECT_DIR$/js/motion.min.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/js/build.min.js" />
+      <root url="file://$PROJECT_DIR$/js/map.min.js" />
+      <root url="file://$PROJECT_DIR$/js/str_utils.min.js" />
+      <root url="file://$PROJECT_DIR$/js/elements.min.js" />
+      <root url="file://$PROJECT_DIR$/js/test.min.js" />
+      <root url="file://$PROJECT_DIR$/js/graph_operations.min.js" />
+      <root url="file://$PROJECT_DIR$/js/app.min.js" />
+      <root url="file://$PROJECT_DIR$/js/graph.min.js" />
+      <root url="file://$PROJECT_DIR$/js/motion.min.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

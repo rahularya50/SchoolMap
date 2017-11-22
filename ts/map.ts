@@ -5,7 +5,7 @@ let svgDocs: Document[] = [];
 
 let currVisible = 0;
 
-const FLOORS = 7;
+const FLOORS = 3;
 
 window.onload = () => {
     for (let i = 0; i < FLOORS; i++) {
@@ -13,7 +13,7 @@ window.onload = () => {
         svgDocs.push(null);
         $(svgs[i]).ready(function () {
             svgDocs[i] = svgs[i].contentDocument;
-            let hammer = new Hammer(svgDocs[i].getElementsByTagName("svg")[0]);
+            let hammer = new Hammer(<HTMLElement><any>svgDocs[i].getElementsByTagName("svg")[0]);
             hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
             hammer.on("pan panstart panend", motion.handleTouchEvent);
         });

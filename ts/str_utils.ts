@@ -1,4 +1,5 @@
 ﻿import * as graph from "./graph";
+import {gen_turns, Route} from "./graph_operations";
 
 export function message(start: graph.Place, end: graph.Place, edge: graph.Edge): string {
     if (edge.type == "Staircase") {
@@ -18,8 +19,21 @@ export function message(start: graph.Place, end: graph.Place, edge: graph.Edge):
     }
 }
 
-export function dir_gen(old_dir: graph.Direction, new_dir: graph.Direction): string {
-    let delta = (new_dir - old_dir + 12) % 4;
+export function gen_desc(route: Route) {
+    let output : Array<string> = [];
+    let turns = gen_turns(route);
+
+    for (let i = 0; i < turns.length; i++) {
+        let prefix = dir_gen(turns[i]);
+        let temp = prefix + message(i == 0 ? route.origin : route.moves[i - 1].place, route.moves[i].place, route.moves[i].edge);
+
+        output.push(temp[0].toUpperCase() + temp.slice(1));
+    }
+    output.push("You have arrived!");
+    return output;
+}
+
+export function dir_gen(delta: graph.Direction): string {
     switch (delta) {
         case graph.Direction.Up: return "";
         case graph.Direction.Left: return "Turn <strong>left</strong>, and ";

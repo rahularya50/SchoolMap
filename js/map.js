@@ -4,7 +4,7 @@ define(["require", "exports", "motion"], function (require, exports, motion) {
     let svgs = [];
     let svgDocs = [];
     let currVisible = 0;
-    const FLOORS = 7;
+    const FLOORS = 3;
     window.onload = () => {
         for (let i = 0; i < FLOORS; i++) {
             svgs.push(document.getElementById(`id_map_${i + 1}`));

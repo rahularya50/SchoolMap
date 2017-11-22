@@ -37,11 +37,11 @@ define(["require", "exports", "./graph", "./elements"], function (require, expor
     // Make the Science Block!
     corridors = [];
     let science_block = [["GLT"],
-        ["SC101", "Prep Room", "SC102", "SC103"],
+        ["SC101", "1st Floor Prep Room", "SC102", "SC103"],
         ["Sci-New Block Passthrough", "SC201", "SC202", "SC203"],
-        ["ME2", "SC301", "Prep Room", "SC302", "SC303"],
+        ["ME2", "SC301", "3rd Floor Prep Room", "SC302", "SC303"],
         ["Science Office", "SC401", "SC402", "SC403", "SC404"],
-        ["ME1", "SC501", "Prep Room", "SC502", "SC503"],
+        ["ME1", "SC501", "5th Floor Prep Room", "SC502", "SC503"],
         ["Science Block Garden"]]; // TODO: Add ME1/2 + Science Office routing
     for (let i = 1; i < 7; i++) {
         corridors.push(new elements.Corridor(science_block[i], exports.locations, 1 /* Right */));

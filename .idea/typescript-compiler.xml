@@ -5,5 +5,6 @@
     <option name="hasOutDirectory" value="true" />
     <option name="outDirectory" value="C:\Users\rahul\WebstormProjects\SchoolMap/js" />
     <option name="useConfig" value="true" />
+    <option name="showAllErrors" value="true" />
   </component>
 </project>

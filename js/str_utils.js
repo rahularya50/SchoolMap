@@ -1,4 +1,4 @@
-define(["require", "exports", "./graph"], function (require, exports, graph) {
+define(["require", "exports", "./graph", "./graph_operations"], function (require, exports, graph, graph_operations_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function message(start, end, edge) {
@@ -19,8 +19,19 @@ define(["require", "exports", "./graph"], function (require, exports, graph) {
         }
     }
     exports.message = message;
-    function dir_gen(old_dir, new_dir) {
-        let delta = (new_dir - old_dir + 12) % 4;
+    function gen_desc(route) {
+        let output = [];
+        let turns = graph_operations_1.gen_turns(route);
+        for (let i = 0; i < turns.length; i++) {
+            let prefix = dir_gen(turns[i]);
+            let temp = prefix + message(i == 0 ? route.origin : route.moves[i - 1].place, route.moves[i].place, route.moves[i].edge);
+            output.push(temp[0].toUpperCase() + temp.slice(1));
+        }
+        output.push("You have arrived!");
+        return output;
+    }
+    exports.gen_desc = gen_desc;
+    function dir_gen(delta) {
         switch (delta) {
             case 0 /* Up */: return "";
             case 3 /* Left */: return "Turn <strong>left</strong>, and ";

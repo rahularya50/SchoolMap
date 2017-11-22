@@ -17,5 +17,6 @@
     <orderEntry type="library" name="en" level="application" />
     <orderEntry type="library" name="hammer" level="application" />
     <orderEntry type="library" name="materialize" level="application" />
+    <orderEntry type="library" name="TweenMax" level="application" />
   </component>
 </module>

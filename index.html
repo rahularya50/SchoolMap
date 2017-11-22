@@ -14,6 +14,8 @@
     <!--  BOOTSTRAP!!!! -->
     <!-- Latest compiled and minified CSS -->
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+
     <!-- Material Design fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -29,7 +31,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js" crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"
-            data-main="./js/app"
+            data-main="./js/app.min"
             crossorigin="anonymous"></script>
 </head>
 <body>
@@ -55,7 +57,7 @@
     </fieldset>
     <div id="top">
         <div id="result-img">
-            <img class="arrow-img" src="img/placeholder_arrow.png">
+            <img id="arrow-img" src="img/left.svg">
         </div>
         <div id="result-text"></div>
     </div>

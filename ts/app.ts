@@ -2,6 +2,8 @@
 import * as graph_operations from "./graph_operations";
 import * as build from "./build";
 import * as map from "./map";
+import {Direction} from "./graph";
+import {gen_desc} from "./str_utils";
 
 // Testing!
 
@@ -10,7 +12,9 @@ import * as map from "./map";
 
 
 function focusMap(route: graph_operations.Route, index: number) {
-    let moveDescs = graph_operations.gen_desc(route);
+    let turns = graph_operations.gen_turns(route);
+    let moveDescs = gen_desc(route);
+    moveDescs.push("You have arrived!");
     let edgePairs = graph_operations.edgePair(route);
 
     let floor: number;
@@ -29,6 +33,28 @@ function focusMap(route: graph_operations.Route, index: number) {
         console.log(`Floors are ${map.getFloor(startName)} and ${map.getFloor(endName)}`);
         console.log(`Focusing on ${startName} and ${endName}`);
         map.focusMap(startName, endName);
+        let url : string;
+        if (index == 0) {
+        }
+        else {
+            let delta = turns[index];
+            console.log(delta);
+            switch (delta) {
+                case Direction.Up:
+                    url = "";
+                    break;
+                case Direction.Left:
+                    url = "img/left.svg";
+                    break;
+                case Direction.Right:
+                    url = "img/right.svg";
+                    break;
+                case Direction.Down:
+                    url = "img/uturn.svg";
+                    break;
+            }
+        }
+        $("#arrow-img").attr("src", url)
     } else {
 
     }
@@ -43,7 +69,8 @@ function init() {
     $("#map").css("display", "");
     $("#result-text").css("display", "none");
     $("#top").css("display", "none");
-
+    
+        
     let locations = build.locations; //A list of location strings
 
     let index = 0;

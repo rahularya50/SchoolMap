@@ -22,7 +22,7 @@ export class Edge {
                 (startNodeCoords[0] - endNodeCoords[0]) ** 2 +
                 (startNodeCoords[1] - endNodeCoords[1]) ** 2) + 1;
         } catch (e) {
-            return (Math.abs(this.places.indexOf(a) - this.places.indexOf(b)) * 500) + 1;
+            return (Math.abs(this.places.indexOf(a) - this.places.indexOf(b)) * 500) + 100;
         }
     }
 

@@ -54,8 +54,9 @@ span {
 
 #main {
     width: 100%;
-    position: absolute;
+    position: fixed;
     top: 20vh;
+    height: 70vh;
     bottom: 10vh;
     z-index: auto;
     overflow: hidden;

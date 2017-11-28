@@ -1,4 +1,4 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", "./map", "./map"], function (require, exports, map, map_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class Move {
@@ -49,28 +49,48 @@ define(["require", "exports"], function (require, exports) {
         return explored.get(end_place);
     }
     exports.path_finder = path_finder;
+    function get_angle(origin, dest) {
+        let originCoords = map.getLocation(map_1.genMapId(origin), map_1.genMapId(dest));
+        let destCoords = map.getLocation(map_1.genMapId(dest), map_1.genMapId(origin));
+        return Math.atan2(destCoords[1] - originCoords[1], destCoords[0] - originCoords[0]);
+    }
     function gen_turns(route) {
-        let output = [];
+        let angles = [];
+        let staircase_dir = [];
         for (let i = 0; i < route.moves.length; i++) {
-            if (i != 0) {
-                let edge = route.moves[i].edge;
-                let prev_edge = route.moves[i - 1].edge;
-                let prev_place = i == 1 ? route.origin : route.moves[i - 2].place;
-                let place = route.moves[i - 1].place;
-                let sign = edge.path_sign(place, route.moves[i].place);
-                let prev_sign = prev_edge.path_sign(prev_place, place);
-                let direction = edge.direction + 2 * sign;
-                let prev_direction = prev_edge.direction + 2 * prev_sign;
-                if (prev_edge.type == "Staircase") {
-                    prev_direction += 2;
-                }
-                output.push((direction - prev_direction + 12) % 4);
-                // prefix = str_utils.dir_gen(prev_direction, direction);
+            if (route.moves[i].edge.type === "Staircase") {
+                angles.push(-1);
+                staircase_dir.push();
             }
-            // let temp = prefix + str_utils.message(i == 0 ? route.origin : route.moves[i - 1].place, route.moves[i].place, route.moves[i].edge);
-            // output.push(temp[0].toUpperCase() + temp.slice(1));
+            else {
+                angles.push(get_angle(i != 0 ? route.moves[i - 1].place : route.origin, route.moves[i].place));
+                staircase_dir.push(undefined);
+            }
         }
+        let output = [0 /* Forward */];
+        for (let i = 1; i < angles.length; i++) {
+            let angle_delta = (angles[i] - angles[i - 1] + Math.PI * 2) % (Math.PI * 2);
+            if (angle_delta < Math.PI / 4 || angle_delta > Math.PI * 7 / 4) {
+                output.push(0 /* Forward */);
+            }
+            else if (angle_delta < Math.PI * 3 / 4) {
+                output.push(1 /* Right */);
+            }
+            else if (angle_delta < Math.PI * 5 / 4) {
+                output.push(2 /* Backwards */);
+            }
+            else if (angle_delta <= Math.PI * 7 / 4) {
+                output.push(3 /* Left */);
+            }
+            else {
+                output.push(0 /* Forward */);
+            }
+        }
+        // prefix = str_utils.dir_gen(prev_direction, direction)
+        // let temp = prefix + str_utils.message(i == 0 ? route.origin : route.moves[i - 1].place, route.moves[i].place, route.moves[i].edge);
+        // output.push(temp[0].toUpperCase() + temp.slice(1));
         // output.push("You have arrived!");
+        console.log(output);
         return output;
     }
     exports.gen_turns = gen_turns;

@@ -1,4 +1,5 @@
 ﻿import * as map from "./map";
+import {genMapId} from "./map";
 
 export class Edge {
     constructor(public places: Array<Place>, public name: string, public direction: Direction, public type: string = "edge") { }
@@ -13,8 +14,8 @@ export class Edge {
 
     dist_between(a: Place, b: Place): number {
         try {
-            let startNodeName = a.id.split(" ").join("_");
-            let endNodeName = b.id.split(" ").join("_");
+            let startNodeName = genMapId(a);
+            let endNodeName = genMapId(b);
             let startNodeCoords = map.getLocation(startNodeName, endNodeName);
             let endNodeCoords = map.getLocation(endNodeName, startNodeName);
 
@@ -48,10 +49,12 @@ export class Place {
 }
 
 export const enum Direction {
-    Up = 0,
+    Forward = 0,
     Right = 1,
-    Down = 2,
-    Left = 3
+    Backwards = 2,
+    Left = 3,
+    Up = 4,
+    Down = 5,
 }
 
 export function makeEdge(start: Place, end: Place, edge: Edge): void {

@@ -33,10 +33,10 @@ define(["require", "exports", "./graph", "./graph_operations"], function (requir
     exports.gen_desc = gen_desc;
     function dir_gen(delta) {
         switch (delta) {
-            case 0 /* Up */: return "";
+            case 0 /* Forward */: return "";
             case 3 /* Left */: return "Turn <strong>left</strong>, and ";
             case 1 /* Right */: return "Turn <strong>right</strong>, and ";
-            case 2 /* Down */: return "Turn <strong>around</strong>, and ";
+            case 2 /* Backwards */: return "Turn <strong>around</strong>, and ";
         }
         console.log(delta);
     }

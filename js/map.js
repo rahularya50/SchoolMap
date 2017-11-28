@@ -48,6 +48,10 @@ define(["require", "exports", "motion"], function (require, exports, motion) {
         return out;
     }
     exports.getFloor = getFloor;
+    function genMapId(place) {
+        return place.id.split(" ").join("_");
+    }
+    exports.genMapId = genMapId;
     function drawEdge(start, end) {
         let floor = Math.max(getFloor(start), getFloor(end));
         if (floor != -1 && (getFloor(start) == -1 || getFloor(end) == -1 || getFloor(start) == getFloor(end))) {

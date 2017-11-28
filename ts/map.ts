@@ -1,4 +1,5 @@
 ﻿import * as motion from "motion";
+import {Place} from "./graph";
 
 let svgs: HTMLIFrameElement[] = [];
 let svgDocs: Document[] = [];
@@ -56,6 +57,10 @@ export function getFloor(place: string): number {
         }
     }
     return out;
+}
+
+export function genMapId(place: Place) {
+    return place.id.split(" ").join("_");
 }
 
 export function drawEdge(start: string, end: string) {

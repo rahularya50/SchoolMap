@@ -1,4 +1,4 @@
-define(["require", "exports", "./map"], function (require, exports, map) {
+define(["require", "exports", "./map", "./map"], function (require, exports, map, map_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class Edge {
@@ -16,8 +16,8 @@ define(["require", "exports", "./map"], function (require, exports, map) {
         }
         dist_between(a, b) {
             try {
-                let startNodeName = a.id.split(" ").join("_");
-                let endNodeName = b.id.split(" ").join("_");
+                let startNodeName = map_1.genMapId(a);
+                let endNodeName = map_1.genMapId(b);
                 let startNodeCoords = map.getLocation(startNodeName, endNodeName);
                 let endNodeCoords = map.getLocation(endNodeName, startNodeName);
                 return Math.sqrt((startNodeCoords[0] - endNodeCoords[0]) ** 2 +

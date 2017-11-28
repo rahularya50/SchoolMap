@@ -1,7 +1,7 @@
-﻿import * as str_utils from "./str_utils";
-import * as graph from "./graph";
-import {Staircase} from "./elements";
-import {Direction} from "./graph";
+﻿import * as graph from "./graph";
+import * as map from "./map";
+import {Direction, Edge, Place} from "./graph";
+import {genMapId} from "./map";
 
 class Move {
     constructor(public edge: graph.Edge, public place: graph.Place, public length: number) {
@@ -51,35 +51,53 @@ export function path_finder(start_place: graph.Place, end_place: graph.Place): R
     return explored.get(end_place);
 }
 
+function get_angle(origin: Place, dest: Place) {
+    let originCoords = map.getLocation(genMapId(origin), genMapId(dest));
+    let destCoords = map.getLocation(genMapId(dest), genMapId(origin));
+
+    return Math.atan2(destCoords[1] - originCoords[1], destCoords[0] - originCoords[0]);
+}
+
 export function gen_turns(route: Route): Direction[] {
-    let output: Array<Direction> = [];
+    let angles: Array<number> = [];
+    let staircase_dir: Array<Direction> = [];
     for (let i = 0; i < route.moves.length; i++) {
-        if (i != 0) {
-            let edge = route.moves[i].edge;
-            let prev_edge = route.moves[i - 1].edge;
-
-            let prev_place = i == 1 ? route.origin : route.moves[i - 2].place;
-            let place = route.moves[i - 1].place;
-
-            let sign = edge.path_sign(place, route.moves[i].place);
-            let prev_sign = prev_edge.path_sign(prev_place, place);
-
-            let direction = edge.direction + 2 * sign;
-            let prev_direction = prev_edge.direction + 2 * prev_sign;
-
-            if (prev_edge.type == "Staircase") {
-                prev_direction += 2;
-            }
-
-            output.push((direction - prev_direction + 12) % 4);
-
-            // prefix = str_utils.dir_gen(prev_direction, direction);
+        if (route.moves[i].edge.type === "Staircase") {
+            angles.push(-1);
+            staircase_dir.push();
+        } else {
+            angles.push(get_angle(i != 0 ? route.moves[i - 1].place : route.origin, route.moves[i].place));
+            staircase_dir.push(undefined);
         }
+    }
+
+    let output: Array<Direction> = [Direction.Forward];
+
+    for (let i = 1; i < angles.length; i++) {
+        let angle_delta = (angles[i] - angles[i-1] + Math.PI * 2) % (Math.PI * 2);
+        if (angle_delta < Math.PI / 4 || angle_delta > Math.PI * 7 / 4) {
+            output.push(Direction.Forward);
+        }
+        else if (angle_delta < Math.PI * 3 / 4) {
+            output.push(Direction.Right);
+        }
+        else if (angle_delta < Math.PI * 5 / 4) {
+            output.push(Direction.Backwards)
+        }
+        else if (angle_delta <= Math.PI * 7 / 4) {
+            output.push(Direction.Left)
+        }
+        else {
+            output.push(Direction.Forward);
+        }
+    }
+
+            // prefix = str_utils.dir_gen(prev_direction, direction)
         // let temp = prefix + str_utils.message(i == 0 ? route.origin : route.moves[i - 1].place, route.moves[i].place, route.moves[i].edge);
 
         // output.push(temp[0].toUpperCase() + temp.slice(1));
-    }
     // output.push("You have arrived!");
+    console.log(output);
     return output;
 }
 

@@ -1,17 +1,18 @@
-define(["require", "exports", "./graph_operations", "./build", "./map", "./str_utils"], function (require, exports, graph_operations, build, map, str_utils_1) {
+define(["require", "exports", "./graph_operations", "./build", "./map", "./str_utils", "./map"], function (require, exports, graph_operations, build, map, str_utils_1, map_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     // Testing!
     //graph_operations.path_finder takes in two Places and outputs a Route
     //gen_desc takes in a Route and output a String[] of directions.
     function focusMap(route, index) {
+        console.log(route);
         let turns = graph_operations.gen_turns(route);
         let moveDescs = str_utils_1.gen_desc(route);
         moveDescs.push("You have arrived!");
         let edgePairs = graph_operations.edgePair(route);
         let floor;
-        let startName = edgePairs[index][0].id.split(" ").join("_");
-        let endName = edgePairs[index][1].id.split(" ").join("_");
+        let startName = map_1.genMapId(edgePairs[index][0]);
+        let endName = map_1.genMapId(edgePairs[index][1]);
         floor = Math.max(map.getFloor(endName), map.getFloor(startName));
         if (floor != -1 && (map.getFloor(startName) == -1 ||
             map.getFloor(endName) == -1 ||
@@ -27,8 +28,8 @@ define(["require", "exports", "./graph_operations", "./build", "./map", "./str_u
                 let delta = turns[index];
                 console.log(delta);
                 switch (delta) {
-                    case 0 /* Up */:
-                        url = "";
+                    case 0 /* Forward */:
+                        url = "img/forward.svg";
                         break;
                     case 3 /* Left */:
                         url = "img/left.svg";
@@ -36,8 +37,14 @@ define(["require", "exports", "./graph_operations", "./build", "./map", "./str_u
                     case 1 /* Right */:
                         url = "img/right.svg";
                         break;
-                    case 2 /* Down */:
+                    case 2 /* Backwards */:
                         url = "img/uturn.svg";
+                        break;
+                    case 4 /* Up */:
+                        url = "img/stair_up.svg";
+                        break;
+                    case 5 /* Down */:
+                        url = "img/stair_down.svg";
                         break;
                 }
             }

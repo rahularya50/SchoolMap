@@ -4,6 +4,7 @@ import * as build from "./build";
 import * as map from "./map";
 import {Direction} from "./graph";
 import {gen_desc} from "./str_utils";
+import {genMapId} from "./map";
 
 // Testing!
 
@@ -12,6 +13,7 @@ import {gen_desc} from "./str_utils";
 
 
 function focusMap(route: graph_operations.Route, index: number) {
+    console.log(route);
     let turns = graph_operations.gen_turns(route);
     let moveDescs = gen_desc(route);
     moveDescs.push("You have arrived!");
@@ -19,8 +21,8 @@ function focusMap(route: graph_operations.Route, index: number) {
 
     let floor: number;
 
-    let startName = edgePairs[index][0].id.split(" ").join("_");
-    let endName = edgePairs[index][1].id.split(" ").join("_");
+    let startName = genMapId(edgePairs[index][0]);
+    let endName = genMapId(edgePairs[index][1]);
     floor = Math.max(map.getFloor(endName),
         map.getFloor(startName));
 
@@ -40,8 +42,8 @@ function focusMap(route: graph_operations.Route, index: number) {
             let delta = turns[index];
             console.log(delta);
             switch (delta) {
-                case Direction.Up:
-                    url = "";
+                case Direction.Forward:
+                    url = "img/forward.svg";
                     break;
                 case Direction.Left:
                     url = "img/left.svg";
@@ -49,8 +51,14 @@ function focusMap(route: graph_operations.Route, index: number) {
                 case Direction.Right:
                     url = "img/right.svg";
                     break;
-                case Direction.Down:
+                case Direction.Backwards:
                     url = "img/uturn.svg";
+                    break;
+                case Direction.Up:
+                    url = "img/stair_up.svg";
+                    break;
+                case Direction.Down:
+                    url= "img/stair_down.svg";
                     break;
             }
         }

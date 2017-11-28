@@ -35,10 +35,10 @@ export function gen_desc(route: Route) {
 
 export function dir_gen(delta: graph.Direction): string {
     switch (delta) {
-        case graph.Direction.Up: return "";
+        case graph.Direction.Forward: return "";
         case graph.Direction.Left: return "Turn <strong>left</strong>, and ";
         case graph.Direction.Right: return "Turn <strong>right</strong>, and ";
-        case graph.Direction.Down: return "Turn <strong>around</strong>, and ";
+        case graph.Direction.Backwards: return "Turn <strong>around</strong>, and ";
     }
     console.log(delta);
 }

@@ -57,15 +57,25 @@ corridors = [];
 
 let science_block = [["GLT"],
     ["SC101", "1st Floor Prep Room", "SC102", "SC103"],
-    ["Sci-New Block Passthrough", "SC201", "SC202", "SC203"],
+    ["SC201", "SC202", "SC203"],
     ["ME2", "SC301", "3rd Floor Prep Room", "SC302", "SC303"],
     ["Science Office", "SC401", "SC402", "SC403", "SC404"],
     ["ME1", "SC501", "5th Floor Prep Room", "SC502", "SC503"],
     ["Science Block Garden"]]; // TODO: Add ME1/2 + Science Office routing
 
 for (let i = 1; i < 7; i++) {
-    corridors.push(new elements.Corridor(science_block[i], locations, graph.Direction.Right))
+    corridors.push(new elements.Corridor(science_block[i], locations, graph.Direction.Right));
+    graph.makeEdge(new elements.InvisiblePlace("Science Block Intersection " + i, []), null, corridors[i - 1]);
 }
+
+let science_passthrough_intersection = new elements.InvisiblePlace("Science Block Passthrough Intersection", []);
+locations["Sci-New Block Passthrough"] = new graph.Place("Sci-New Block Passthrough", []);
+
+graph.makeEdge(science_passthrough_intersection, corridors[1].places[0],
+    new elements.Corridor([], locations, graph.Direction.Forward));
+graph.makeEdge(locations["Sci-New Block Passthrough"], science_passthrough_intersection,
+    new elements.Corridor([], locations, graph.Direction.Forward));
+
 
 s1 = new elements.Staircase("Science Block Staircase 1", 7, graph.Direction.Left);
 s2 = new elements.Staircase("Science Block Staircase 2", 7, graph.Direction.Right);
@@ -135,9 +145,9 @@ let s1_1 = new elements.StairJunction(1, [corridors_1[1]], "Peel Block Staircase
 let s2_0 = new elements.StairJunction(0, [corridors_2[0]], "Peel Block Staircase 2");
 let s2_1 = new elements.StairJunction(1, [corridors_3[1]], "Peel Block Staircase 2");
 
-s1 = new graph.Edge([s1_0, s1_1], "Peel Block Staircase 1", graph.Direction.Up);
-s2 = new graph.Edge([locations["Foyer"], locations["LRC Canteen"]], "Foyer Staircase", graph.Direction.Right);
-let s3 = new graph.Edge([s2_0, s2_1], "Peel Block Staircase 2", graph.Direction.Right);
+s1 = new graph.Edge([s1_0, s1_1], "Peel Block Staircase 1", graph.Direction.Up, "Staircase");
+s2 = new graph.Edge([locations["Foyer"], locations["LRC Canteen"]], "Foyer Staircase", graph.Direction.Right, "Staircase");
+let s3 = new graph.Edge([s2_0, s2_1], "Peel Block Staircase 2", graph.Direction.Right, "Staircase");
 
 s1_0.add_edge(s1);
 s1_1.add_edge(s1);

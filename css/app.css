@@ -41,8 +41,10 @@ span {
     padding-right: 10%;
 }
 
-.arrow-img {
-    height: 100%;
+#arrow-img {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .svg_map {

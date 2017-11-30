@@ -6,7 +6,7 @@ let svgDocs: Document[] = [];
 
 let currVisible = 0;
 
-const FLOORS = 3;
+const FLOORS = 4;
 
 window.onload = () => {
     for (let i = 0; i < FLOORS; i++) {

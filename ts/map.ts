@@ -21,17 +21,22 @@ window.onload = () => {
     }
 };
 
+// Focuses the appropriate SVG on an edge joining designated Nodes.
 export function focusMap(start: string, end: string) {
+    // Determining the floor of the input Place ids, as described previously
     let floor = Math.max(getFloor(start), getFloor(end));
     (<any> focusMapOnPoints)(...getLocation(start, end), ...getLocation(end, start), floor, 50);
 }
 
+// Calls animation handlers from motion.ts to animate a specified SVG to focus on given coordinates
 function focusMapOnPoints(startX: number, startY: number, endX: number, endY: number, floor: number, padding: number) {
+    // Calculating the bounding box of the given coordinates
     let maxX = Math.max(startX, endX);
     let maxY = Math.max(startY, endY);
     let minX = Math.min(startX, endX);
     let minY = Math.min(startY, endY);
 
+    // Calling motion.ts animation handlers and extracting the SVG element from the DOM
     motion.animate(
         svgDocs[floor].getElementsByTagName("svg")[0],
         (minX + maxX) / 2, (minY + maxY) / 2, maxX - minX + 2 * padding, maxY - minY + 2 * padding
@@ -63,15 +68,20 @@ export function genMapId(place: Place) {
     return place.id.split(" ").join("_");
 }
 
+// Extracting the Nodes corresponding to given Place ids and calling appropriate SVG manipulation functions
 export function drawEdge(start: string, end: string) {
+    // Determining the floor of the input Place ids, as described previously
     let floor = Math.max(getFloor(start), getFloor(end));
+    // Verifying that the Places are on the same floor
     if (floor != -1 && (getFloor(start) == -1 || getFloor(end) == -1 || getFloor(start) == getFloor(end))) {
         console.log(`Drawing edge between ${start} and ${end}!`);
+        // Calling raw SVG manipulation function
         drawSVGEdge(getSvgNode(start, end), getSvgNode(end, start), svgDocs[floor].getElementById("Edges"));
         // showFloor(getFloor(start));
     }
 }
 
+// Deleting all elements in SVG "Edges" layer to reset the map display
 export function clearMap() {
     for (let i = 0; i < FLOORS; i++) {
         $(svgDocs[i].getElementById("Edges")).empty();
@@ -86,16 +96,22 @@ function getCoords(place: SVGUseElement): [number, number] {
     return [place.transform.baseVal[0].matrix.e, place.transform.baseVal[0].matrix.f];
 }
 
+// Constructs an SVG element from two specified Nodes
 function drawSVGEdge(start: SVGUseElement, end: SVGUseElement, svg: Node): void {
+    // Extracting the coordinates of the specified SVG Nodes
     let [start_x, start_y] = getCoords(start);
     let [end_x, end_y] = getCoords(end);
 
+    // Creating an SVG stroke element to visually represent an Edge
     let newElement = document.createElementNS("http://www.w3.org/2000/svg", 'path'); //Create a path in SVG's namespace
     newElement.setAttribute("d", "M" + start_x.toString() + " " + start_y.toString() + "L" + end_x.toString() + " " + end_y.toString()); //Set path's data
     newElement.style.stroke = "#000"; //Set stroke colour
     newElement.style.strokeWidth = "5px"; //Set stroke width
+
+    // Adding the SVG element to the SVG container
     svg.appendChild(newElement);
 
+    // Ensuring the source and destination Nodes are visible
     $(start).css('visibility', 'visible');
     $(end).css('visibility', 'visible');
 }

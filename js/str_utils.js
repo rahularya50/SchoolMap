@@ -1,7 +1,9 @@
 define(["require", "exports", "./graph", "./graph_operations"], function (require, exports, graph, graph_operations_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    // Generate the message body of a movement from "start" to "end" along "edge"
     function message(start, end, edge) {
+        // By delegating message generation to Edges in special cases, internal properties do not have to be publicly exposed, making it easier to modify or extend the data model in the future.
         if (edge.type == "Staircase") {
             return edge.message(start, end);
         }
@@ -19,14 +21,18 @@ define(["require", "exports", "./graph", "./graph_operations"], function (requir
         }
     }
     exports.message = message;
+    // Generate an Array of message descriptors
     function gen_desc(route) {
         let output = [];
         let turns = graph_operations_1.gen_turns(route);
         for (let i = 0; i < turns.length; i++) {
             let prefix = dir_gen(turns[i]);
+            // Combine prefix with body to create full message
             let temp = prefix + message(i == 0 ? route.origin : route.moves[i - 1].place, route.moves[i].place, route.moves[i].edge);
+            // Fix capitalization
             output.push(temp[0].toUpperCase() + temp.slice(1));
         }
+        // Add concluding message
         output.push("You have arrived!");
         return output;
     }

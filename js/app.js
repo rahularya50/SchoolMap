@@ -4,55 +4,56 @@ define(["require", "exports", "./graph_operations", "./build", "./map", "./str_u
     // Testing!
     //graph_operations.path_finder takes in two Places and outputs a Route
     //gen_desc takes in a Route and output a String[] of directions.
+    // focusMap updates the display based on an input Route and index within Route.moves
     function focusMap(route, index) {
-        console.log(route);
+        // Generate the raw data to be formatted using pre-existing functions
         let turns = graph_operations.gen_turns(route);
         let moveDescs = str_utils_1.gen_desc(route);
-        moveDescs.push("You have arrived!");
         let edgePairs = graph_operations.edgePair(route);
-        let floor;
+        // Identify the map elements corresponding to the start and end Places for the Edge of the specified index within the Route
         let startName = map_1.genMapId(edgePairs[index][0]);
         let endName = map_1.genMapId(edgePairs[index][1]);
-        floor = Math.max(map.getFloor(endName), map.getFloor(startName));
+        // Identify the floor to be displayed based on the Edge's start and end Places
+        let floor = Math.max(map.getFloor(endName), map.getFloor(startName)); // map.getFloor returns -1 if the result is inconclusive (i.e. for StairJunctions on Staircases spanning multiple floors). By taking the maximum, the target floor can be identified even if one Place is on multiple floors.
+        // Verify that the floor has been identified correctly and that the results from map.getFloor are consistent
         if (floor != -1 && (map.getFloor(startName) == -1 ||
             map.getFloor(endName) == -1 ||
             map.getFloor(startName) == map.getFloor(endName))) {
-            map.showFloor(floor);
+            map.showFloor(floor); // Load and display the SVG corresponding to the identified floor
             console.log(`Floors are ${map.getFloor(startName)} and ${map.getFloor(endName)}`);
             console.log(`Focusing on ${startName} and ${endName}`);
-            map.focusMap(startName, endName);
+            map.focusMap(startName, endName); // Pan and zoom the SVG map to focus on the desired Edge
+            // Identify the icon to display any changes in Direction
             let url;
-            if (index == 0) {
+            let delta = turns[index];
+            console.log(delta);
+            switch (delta) {
+                case 0 /* Forward */:
+                    url = "img/forward.svg";
+                    break;
+                case 3 /* Left */:
+                    url = "img/left.svg";
+                    break;
+                case 1 /* Right */:
+                    url = "img/right.svg";
+                    break;
+                case 2 /* Backwards */:
+                    url = "img/uturn.svg";
+                    break;
+                case 4 /* Up */:
+                    url = "img/stair_up.svg";
+                    break;
+                case 5 /* Down */:
+                    url = "img/stair_down.svg";
+                    break;
             }
-            else {
-                let delta = turns[index];
-                console.log(delta);
-                switch (delta) {
-                    case 0 /* Forward */:
-                        url = "img/forward.svg";
-                        break;
-                    case 3 /* Left */:
-                        url = "img/left.svg";
-                        break;
-                    case 1 /* Right */:
-                        url = "img/right.svg";
-                        break;
-                    case 2 /* Backwards */:
-                        url = "img/uturn.svg";
-                        break;
-                    case 4 /* Up */:
-                        url = "img/stair_up.svg";
-                        break;
-                    case 5 /* Down */:
-                        url = "img/stair_down.svg";
-                        break;
-                }
-            }
+            // Display the identified icon in a HTML <img> tag
             $("#arrow-img").attr("src", url);
         }
         else {
         }
         console.log(floor);
+        // Write the corresponding message text to a HTML <div> tag
         document.getElementById("result-text").innerHTML = moveDescs[index];
     }
     function init() {

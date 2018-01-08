@@ -4,7 +4,7 @@ define(["require", "exports", "motion"], function (require, exports, motion) {
     let svgs = []; // Stores the SVG wrapper elements for each floor
     let svgDocs = []; // Stores the SVG elements for each floor
     let currVisible = 0;
-    const FLOORS = 4;
+    const FLOORS = 5;
     // Initializing SVGs after page load
     window.onload = () => {
         for (let i = 0; i < FLOORS; i++) {

@@ -6,7 +6,7 @@ let svgDocs: Document[] = []; // Stores the SVG elements for each floor
 
 let currVisible = 0;
 
-const FLOORS = 4;
+const FLOORS = 5;
 
 // Initializing SVGs after page load
 window.onload = () => {

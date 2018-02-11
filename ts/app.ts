@@ -1,6 +1,7 @@
 ﻿///<reference path="jquery.d.ts"/>
 import * as graph_operations from "./graph_operations";
 import * as build from "./build";
+import * as elements from "./elements";
 import * as map from "./map";
 import {Direction} from "./graph";
 import {gen_desc} from "./str_utils";
@@ -28,45 +29,37 @@ function focusMap(route: graph_operations.Route, index: number) {
         map.getFloor(startName)); // map.getFloor returns -1 if the result is inconclusive (i.e. for StairJunctions on Staircases spanning multiple floors). By taking the maximum, the target floor can be identified even if one Place is on multiple floors.
 
     // Verify that the floor has been identified correctly and that the results from map.getFloor are consistent
-    if (floor != -1 && (
-            map.getFloor(startName) == -1 ||
-            map.getFloor(endName) == -1 ||
-            map.getFloor(startName) == map.getFloor(endName)
-        )) {
-        map.showFloor(floor); // Load and display the SVG corresponding to the identified floor
-        console.log(`Floors are ${map.getFloor(startName)} and ${map.getFloor(endName)}`);
-        console.log(`Focusing on ${startName} and ${endName}`);
-        map.focusMap(startName, endName); // Pan and zoom the SVG map to focus on the desired Edge
+    map.showFloor(floor); // Load and display the SVG corresponding to the identified floor
+    console.log(`Floors are ${map.getFloor(startName)} and ${map.getFloor(endName)}`);
+    console.log(`Focusing on ${startName} and ${endName}`);
+    map.focusMap(edgePairs[index][0], edgePairs[index][1]); // Pan and zoom the SVG map to focus on the desired Edge
 
-        // Identify the icon to display any changes in Direction
-        let url : string;
-        let delta = turns[index];
-        console.log(delta);
-        switch (delta) {
-            case Direction.Forward:
-                url = "img/forward.svg";
-                break;
-            case Direction.Left:
-                url = "img/left.svg";
-                break;
-            case Direction.Right:
-                url = "img/right.svg";
-                break;
-            case Direction.Backwards:
-                url = "img/uturn.svg";
-                break;
-            case Direction.Up:
-                url = "img/stair_up.svg";
-                break;
-            case Direction.Down:
-                url= "img/stair_down.svg";
-                break;
-        }
-        // Display the identified icon in a HTML <img> tag
-        $("#arrow-img").attr("src", url)
-    } else {
-
+    // Identify the icon to display any changes in Direction
+    let url : string;
+    let delta = turns[index];
+    console.log(delta);
+    switch (delta) {
+        case Direction.Forward:
+            url = "img/forward.svg";
+            break;
+        case Direction.Left:
+            url = "img/left.svg";
+            break;
+        case Direction.Right:
+            url = "img/right.svg";
+            break;
+        case Direction.Backwards:
+            url = "img/uturn.svg";
+            break;
+        case Direction.Up:
+            url = "img/stairs_up.svg";
+            break;
+        case Direction.Down:
+            url= "img/stairs_down.svg";
+            break;
     }
+    // Display the identified icon in a HTML <img> tag
+    $("#arrow-img").attr("src", url);
 
     console.log(floor);
 
@@ -114,7 +107,14 @@ function init() {
         console.log("Start");
 
         for (let pair of graph_operations.edgePair(route)) {
-            map.drawEdge(pair[0].id.split(" ").join("_"), pair[1].id.split(" ").join("_"));
+            console.log(pair[0].id, pair[1].id, map.getFloor(map.genMapId(pair[0])), map.getFloor(map.genMapId(pair[1])));
+            if (pair[0].id === pair[1].id) {
+                let stair_pair = pair as any as [elements.StairJunction, elements.StairJunction];
+                map.drawEdge(map.genMapId(pair[0]) + stair_pair[0].floor, map.genMapId(stair_pair[1]) + stair_pair[1].floor);
+            }
+            else {
+                map.drawEdge(map.genMapId(pair[0]), map.genMapId(pair[1]));
+            }
         }
 
         index = 0;

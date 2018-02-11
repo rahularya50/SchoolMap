@@ -23,7 +23,8 @@ define(["require", "exports", "./graph", "./str_utils"], function (require, expo
             return this.places[floor];
         }
         path_sign(a, b) {
-            return 0;
+            console.warn("Compare StairJunction .floor instead!");
+            return this.places.indexOf(a) > this.places.indexOf(b) ? 1 : 0;
         }
         dist_between(a, b) {
             return (Math.abs(this.places.indexOf(a) - this.places.indexOf(b)) * 500) + 100;

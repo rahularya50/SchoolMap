@@ -24,7 +24,7 @@ corridors[1].places.splice(2, 0, locations["ICT Intersection 1"]);
 
 locations["ICT Intersection 2"] = new graph.Place("the intersection", [], "place", "ICT Intersection 2");
 
-graph.makeEdge(locations["ICT Intersection 1"], locations["ICT Intersection 2"], new graph.Edge([], "corridor", graph.Direction.Up));
+graph.makeEdge(locations["ICT Intersection 1"], locations["ICT Intersection 2"], new graph.Edge([], "corridor", graph.Direction.Left));
 
 locations["ICT2"] = new graph.Place("ICT2", []);
 locations["ICT3"] = new graph.Place("ICT3", []);
@@ -41,8 +41,8 @@ corridors[1].places.splice(5, 0, locations["Link Block Intersection Upper"]);
 locations["Link Block Intersection Lower"] = new graph.Place("the intersection", [corridors[0]], "place", "Link Block Intersection Lower");
 corridors[0].places.push(locations["Link Block Intersection Lower"]);
 
-let s1: graph.Edge = new elements.Staircase("Link Block Staircase 1", 7, graph.Direction.Up);
-let s2: graph.Edge = new elements.Staircase("Link Block Staircase 2", 7, graph.Direction.Up); //TODO: Add AS3 + Terrace
+let s1: graph.Edge = new elements.Staircase("Link Block Staircase 1", 7, graph.Direction.Left);
+let s2: graph.Edge = new elements.Staircase("Link Block Staircase 2", 7, graph.Direction.Left); //TODO: Add AS3 + Terrace
 
 staircases["Link Block 1"] = s1;
 staircases["Link Block 2"] = s2;
@@ -102,7 +102,7 @@ let language_block = [["the ICT Helpdesk", "W1", "W2"],
     ["LA301", "LA302", "LA303", "LA304", "LA305", "LA306"]];
 
 for (let i = 0; i < 4; i++) {
-    corridors.push(new elements.Corridor(language_block[i], locations, graph.Direction.Up));
+    corridors.push(new elements.Corridor(language_block[i], locations, graph.Direction.Left));
 }
 
 s1 = new elements.Staircase("Language Block Staircase 1", 4, graph.Direction.Left);
@@ -136,8 +136,8 @@ corridors_1.push(new elements.Corridor(peel_block[1][0], locations, graph.Direct
 corridors_2.push(new elements.Corridor(peel_block[0][1], locations, graph.Direction.Right));
 corridors_2.push(new elements.Corridor(peel_block[1][1], locations, graph.Direction.Right));
 
-corridors_3.push(new elements.Corridor(peel_block[0][2], locations, graph.Direction.Up));
-corridors_3.push(new elements.Corridor(peel_block[1][2], locations, graph.Direction.Up));
+corridors_3.push(new elements.Corridor(peel_block[0][2], locations, graph.Direction.Left));
+corridors_3.push(new elements.Corridor(peel_block[1][2], locations, graph.Direction.Left));
 
 let s1_0 = new elements.StairJunction(0, [corridors_2[0]], "Peel Block Staircase 1");
 let s1_1 = new elements.StairJunction(1, [corridors_1[1]], "Peel Block Staircase 1");
@@ -145,7 +145,7 @@ let s1_1 = new elements.StairJunction(1, [corridors_1[1]], "Peel Block Staircase
 let s2_0 = new elements.StairJunction(0, [corridors_2[0]], "Peel Block Staircase 2");
 let s2_1 = new elements.StairJunction(1, [corridors_3[1]], "Peel Block Staircase 2");
 
-s1 = new graph.Edge([s1_0, s1_1], "Peel Block Staircase 1", graph.Direction.Up, "Staircase");
+s1 = new graph.Edge([s1_0, s1_1], "Peel Block Staircase 1", graph.Direction.Left, "Staircase");
 s2 = new graph.Edge([locations["Foyer"], locations["LRC Canteen"]], "Foyer Staircase", graph.Direction.Right, "Staircase");
 let s3 = new graph.Edge([s2_0, s2_1], "Peel Block Staircase 2", graph.Direction.Right, "Staircase");
 
@@ -220,7 +220,7 @@ graph.makeEdge(null, peel_end_node_lower, peel_block_link);
 
 locations["Hall"] = new graph.Place("Hall", []);
 
-graph.makeEdge(locations["Foyer"], locations["Hall"], new graph.Edge([], "passage", graph.Direction.Up));
+graph.makeEdge(locations["Foyer"], locations["Hall"], new graph.Edge([], "passage", graph.Direction.Left));
 
 // Add the Piazza!
 graph.makeEdge(d_3, locations["GLT"], new graph.Edge([], "passage", graph.Direction.Left));
@@ -241,17 +241,17 @@ graph.makeEdge(locations["the ICT Helpdesk"].edges[0].places[0], piazza_bl, new 
 
 graph.makeEdge(piazza_br, locations["GLT"], new graph.Edge([], "space", graph.Direction.Down));
 graph.makeEdge(piazza_br, d_3, new graph.Edge([], "space", graph.Direction.Right));
-graph.makeEdge(piazza_br, staircases["Science Block 2"][0], new graph.Edge([], "path", graph.Direction.Up));
+graph.makeEdge(piazza_br, staircases["Science Block 2"][0], new graph.Edge([], "path", graph.Direction.Left));
 
 graph.makeEdge(piazza_tr, peel_link_center, new graph.Edge([], "path", graph.Direction.Right));
 
-graph.makeEdge(piazza_tl, staircases["Link Block 1"][0], new graph.Edge([], "path", graph.Direction.Up));
+graph.makeEdge(piazza_tl, staircases["Link Block 1"][0], new graph.Edge([], "path", graph.Direction.Left));
 
 graph.makeEdge(piazza_bl, piazza_br, new graph.Edge([], "piazza", graph.Direction.Right));
-graph.makeEdge(piazza_bl, piazza_tl, new graph.Edge([], "piazza", graph.Direction.Up));
+graph.makeEdge(piazza_bl, piazza_tl, new graph.Edge([], "piazza", graph.Direction.Left));
 graph.makeEdge(piazza_bl, piazza_tr, new graph.Edge([], "piazza", graph.Direction.Right));
 graph.makeEdge(piazza_br, piazza_tl, new graph.Edge([], "piazza", graph.Direction.Left));
-graph.makeEdge(piazza_br, piazza_tr, new graph.Edge([], "piazza", graph.Direction.Up));
+graph.makeEdge(piazza_br, piazza_tr, new graph.Edge([], "piazza", graph.Direction.Left));
 graph.makeEdge(piazza_tl, piazza_tr, new graph.Edge([], "piazza", graph.Direction.Right));
 
 // Add the PE Rooms!
@@ -265,7 +265,7 @@ locations["PE1"] = new graph.Place("PE1", []);
 locations["PE2"] = new graph.Place("PE2", []);
 locations["PE3"] = new graph.Place("PE3", []);
 
-let pe_path_1 = new graph.Edge([], "path", graph.Direction.Up);
+let pe_path_1 = new graph.Edge([], "path", graph.Direction.Left);
 graph.makeEdge(locations["PE3"], locations["PE2"], pe_path_1);
 graph.makeEdge(pe_intersection_bl, null, pe_path_1);
 
@@ -290,4 +290,4 @@ graph.makeEdge(d_2, peel_canteen_transfer, peel_back_corridor);
 graph.makeEdge(null, peel_end_node, peel_back_corridor);
 graph.makeEdge(null, peel_end_node, corridors_3[0]);
 
-graph.makeEdge(peel_canteen_transfer, locations["Canteen"], new graph.Edge([], "space", graph.Direction.Up));
+graph.makeEdge(peel_canteen_transfer, locations["Canteen"], new graph.Edge([], "space", graph.Direction.Left));

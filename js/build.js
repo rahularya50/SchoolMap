@@ -16,7 +16,7 @@ define(["require", "exports", "./graph", "./elements"], function (require, expor
     exports.locations["ICT Intersection 1"] = new graph.Place("the intersection", [corridors[1]], "place", "ICT Intersection 1");
     corridors[1].places.splice(2, 0, exports.locations["ICT Intersection 1"]);
     exports.locations["ICT Intersection 2"] = new graph.Place("the intersection", [], "place", "ICT Intersection 2");
-    graph.makeEdge(exports.locations["ICT Intersection 1"], exports.locations["ICT Intersection 2"], new graph.Edge([], "corridor", 4 /* Up */));
+    graph.makeEdge(exports.locations["ICT Intersection 1"], exports.locations["ICT Intersection 2"], new graph.Edge([], "corridor", 3 /* Left */));
     exports.locations["ICT2"] = new graph.Place("ICT2", []);
     exports.locations["ICT3"] = new graph.Place("ICT3", []);
     let ict_parallel_corridor = new graph.Edge([exports.locations["ICT2"], exports.locations["ICT Intersection 2"], exports.locations["ICT3"]], "corridor", 3 /* Left */);
@@ -27,8 +27,8 @@ define(["require", "exports", "./graph", "./elements"], function (require, expor
     corridors[1].places.splice(5, 0, exports.locations["Link Block Intersection Upper"]);
     exports.locations["Link Block Intersection Lower"] = new graph.Place("the intersection", [corridors[0]], "place", "Link Block Intersection Lower");
     corridors[0].places.push(exports.locations["Link Block Intersection Lower"]);
-    let s1 = new elements.Staircase("Link Block Staircase 1", 7, 4 /* Up */);
-    let s2 = new elements.Staircase("Link Block Staircase 2", 7, 4 /* Up */); //TODO: Add AS3 + Terrace
+    let s1 = new elements.Staircase("Link Block Staircase 1", 7, 3 /* Left */);
+    let s2 = new elements.Staircase("Link Block Staircase 2", 7, 3 /* Left */); //TODO: Add AS3 + Terrace
     staircases["Link Block 1"] = s1;
     staircases["Link Block 2"] = s2;
     for (let i = 0; i < 6; i++) {
@@ -68,7 +68,7 @@ define(["require", "exports", "./graph", "./elements"], function (require, expor
         ["the Language Office", "LA201", "LA202", "LA203", "LA204"],
         ["LA301", "LA302", "LA303", "LA304", "LA305", "LA306"]];
     for (let i = 0; i < 4; i++) {
-        corridors.push(new elements.Corridor(language_block[i], exports.locations, 4 /* Up */));
+        corridors.push(new elements.Corridor(language_block[i], exports.locations, 3 /* Left */));
     }
     s1 = new elements.Staircase("Language Block Staircase 1", 4, 3 /* Left */);
     staircases["Language Block 1"] = s1;
@@ -91,13 +91,13 @@ define(["require", "exports", "./graph", "./elements"], function (require, expor
     corridors_1.push(new elements.Corridor(peel_block[1][0], exports.locations, 5 /* Down */));
     corridors_2.push(new elements.Corridor(peel_block[0][1], exports.locations, 1 /* Right */));
     corridors_2.push(new elements.Corridor(peel_block[1][1], exports.locations, 1 /* Right */));
-    corridors_3.push(new elements.Corridor(peel_block[0][2], exports.locations, 4 /* Up */));
-    corridors_3.push(new elements.Corridor(peel_block[1][2], exports.locations, 4 /* Up */));
+    corridors_3.push(new elements.Corridor(peel_block[0][2], exports.locations, 3 /* Left */));
+    corridors_3.push(new elements.Corridor(peel_block[1][2], exports.locations, 3 /* Left */));
     let s1_0 = new elements.StairJunction(0, [corridors_2[0]], "Peel Block Staircase 1");
     let s1_1 = new elements.StairJunction(1, [corridors_1[1]], "Peel Block Staircase 1");
     let s2_0 = new elements.StairJunction(0, [corridors_2[0]], "Peel Block Staircase 2");
     let s2_1 = new elements.StairJunction(1, [corridors_3[1]], "Peel Block Staircase 2");
-    s1 = new graph.Edge([s1_0, s1_1], "Peel Block Staircase 1", 4 /* Up */, "Staircase");
+    s1 = new graph.Edge([s1_0, s1_1], "Peel Block Staircase 1", 3 /* Left */, "Staircase");
     s2 = new graph.Edge([exports.locations["Foyer"], exports.locations["LRC Canteen"]], "Foyer Staircase", 1 /* Right */, "Staircase");
     let s3 = new graph.Edge([s2_0, s2_1], "Peel Block Staircase 2", 1 /* Right */, "Staircase");
     s1_0.add_edge(s1);
@@ -144,7 +144,7 @@ define(["require", "exports", "./graph", "./elements"], function (require, expor
     graph.makeEdge(exports.locations["Link Block Intersection Lower"], peel_link_center, peel_block_link);
     graph.makeEdge(null, peel_end_node_lower, peel_block_link);
     exports.locations["Hall"] = new graph.Place("Hall", []);
-    graph.makeEdge(exports.locations["Foyer"], exports.locations["Hall"], new graph.Edge([], "passage", 4 /* Up */));
+    graph.makeEdge(exports.locations["Foyer"], exports.locations["Hall"], new graph.Edge([], "passage", 3 /* Left */));
     // Add the Piazza!
     graph.makeEdge(d_3, exports.locations["GLT"], new graph.Edge([], "passage", 3 /* Left */));
     graph.makeEdge(c1_0, staircases["Science Block 2"].places[0], new graph.Edge([], "passage", 3 /* Left */));
@@ -158,14 +158,14 @@ define(["require", "exports", "./graph", "./elements"], function (require, expor
     graph.makeEdge(exports.locations["the ICT Helpdesk"].edges[0].places[0], piazza_bl, new graph.Edge([], "path", 1 /* Right */));
     graph.makeEdge(piazza_br, exports.locations["GLT"], new graph.Edge([], "space", 5 /* Down */));
     graph.makeEdge(piazza_br, d_3, new graph.Edge([], "space", 1 /* Right */));
-    graph.makeEdge(piazza_br, staircases["Science Block 2"][0], new graph.Edge([], "path", 4 /* Up */));
+    graph.makeEdge(piazza_br, staircases["Science Block 2"][0], new graph.Edge([], "path", 3 /* Left */));
     graph.makeEdge(piazza_tr, peel_link_center, new graph.Edge([], "path", 1 /* Right */));
-    graph.makeEdge(piazza_tl, staircases["Link Block 1"][0], new graph.Edge([], "path", 4 /* Up */));
+    graph.makeEdge(piazza_tl, staircases["Link Block 1"][0], new graph.Edge([], "path", 3 /* Left */));
     graph.makeEdge(piazza_bl, piazza_br, new graph.Edge([], "piazza", 1 /* Right */));
-    graph.makeEdge(piazza_bl, piazza_tl, new graph.Edge([], "piazza", 4 /* Up */));
+    graph.makeEdge(piazza_bl, piazza_tl, new graph.Edge([], "piazza", 3 /* Left */));
     graph.makeEdge(piazza_bl, piazza_tr, new graph.Edge([], "piazza", 1 /* Right */));
     graph.makeEdge(piazza_br, piazza_tl, new graph.Edge([], "piazza", 3 /* Left */));
-    graph.makeEdge(piazza_br, piazza_tr, new graph.Edge([], "piazza", 4 /* Up */));
+    graph.makeEdge(piazza_br, piazza_tr, new graph.Edge([], "piazza", 3 /* Left */));
     graph.makeEdge(piazza_tl, piazza_tr, new graph.Edge([], "piazza", 1 /* Right */));
     // Add the PE Rooms!
     let pe_intersection_bl = new elements.InvisiblePlace("PE Intersection BL", []);
@@ -175,7 +175,7 @@ define(["require", "exports", "./graph", "./elements"], function (require, expor
     exports.locations["PE1"] = new graph.Place("PE1", []);
     exports.locations["PE2"] = new graph.Place("PE2", []);
     exports.locations["PE3"] = new graph.Place("PE3", []);
-    let pe_path_1 = new graph.Edge([], "path", 4 /* Up */);
+    let pe_path_1 = new graph.Edge([], "path", 3 /* Left */);
     graph.makeEdge(exports.locations["PE3"], exports.locations["PE2"], pe_path_1);
     graph.makeEdge(pe_intersection_bl, null, pe_path_1);
     let pe_path_2 = new graph.Edge([], "path", 5 /* Down */);
@@ -193,6 +193,6 @@ define(["require", "exports", "./graph", "./elements"], function (require, expor
     graph.makeEdge(d_2, peel_canteen_transfer, peel_back_corridor);
     graph.makeEdge(null, peel_end_node, peel_back_corridor);
     graph.makeEdge(null, peel_end_node, corridors_3[0]);
-    graph.makeEdge(peel_canteen_transfer, exports.locations["Canteen"], new graph.Edge([], "space", 4 /* Up */));
+    graph.makeEdge(peel_canteen_transfer, exports.locations["Canteen"], new graph.Edge([], "space", 3 /* Left */));
 });
 //# sourceMappingURL=build.js.map

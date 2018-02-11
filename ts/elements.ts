@@ -23,7 +23,8 @@ export class Staircase extends graph.Edge {
     }
 
     path_sign(a: StairJunction, b: StairJunction): number {
-        return 0;
+        console.warn("Compare StairJunction .floor instead!");
+        return this.places.indexOf(a) > this.places.indexOf(b) ? 1 : 0;
     }
 
     dist_between(a: graph.Place, b: graph.Place): number {

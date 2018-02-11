@@ -44,7 +44,7 @@ define(["require", "exports", "./graph", "./graph_operations"], function (requir
             case 1 /* Right */: return "Turn <strong>right</strong>, and ";
             case 2 /* Backwards */: return "Turn <strong>around</strong>, and ";
         }
-        console.log(delta);
+        return "";
     }
     exports.dir_gen = dir_gen;
     function ordinal(n) {

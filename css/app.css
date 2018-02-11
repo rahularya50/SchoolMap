@@ -45,6 +45,8 @@ span {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
+    height: 80%;
+    width: 80%;
 }
 
 .svg_map {

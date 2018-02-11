@@ -69,7 +69,8 @@ define(["require", "exports", "./map", "./map"], function (require, exports, map
         let angles = []; // This array will contain the direction of each Move / Edge in the Route
         for (let i = 0; i < route.moves.length; i++) {
             if (route.moves[i].edge.type === "Staircase") {
-                angles.push(-1); // Since Staircases do not have a direction, we assign a placeholder for their angle
+                console.warn("Please verify Staircase direction calculations!");
+                angles.push(Math.PI * 2 - route.moves[i].edge.direction * Math.PI / 2); // Since Staircases do not have a direction, we assign a placeholder for their angle
             }
             else {
                 // The angle obtained from get_angle is pushed to angles
@@ -82,7 +83,12 @@ define(["require", "exports", "./map", "./map"], function (require, exports, map
         for (let i = 1; i < angles.length; i++) {
             let angle_delta = (angles[i] - angles[i - 1] + Math.PI * 2) % (Math.PI * 2); // We use modular arithmetic to force angle_delta between 0 and 2*PI
             // We threshold values of angle_delta to yield the appropriate Direction
-            if (angle_delta < Math.PI / 4 || angle_delta > Math.PI * 7 / 4) {
+            if (route.moves[i].edge.type === "Staircase") {
+                let curr = route.moves[i].place;
+                let prev = (i != 0 ? route.moves[i - 1].place : route.origin);
+                output.push(curr.floor > prev.floor ? 4 /* Up */ : 5 /* Down */);
+            }
+            else if (angle_delta < Math.PI / 4 || angle_delta > Math.PI * 7 / 4) {
                 output.push(0 /* Forward */);
             }
             else if (angle_delta < Math.PI * 3 / 4) {

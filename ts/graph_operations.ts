@@ -2,6 +2,7 @@
 import * as map from "./map";
 import {Direction, Edge, Place} from "./graph";
 import {genMapId} from "./map";
+import {Staircase, StairJunction} from "./elements";
 
 class Move {
     constructor(public edge: graph.Edge, public place: graph.Place, public length: number) {
@@ -75,7 +76,8 @@ export function gen_turns(route: Route): Direction[] {
     let angles: Array<number> = []; // This array will contain the direction of each Move / Edge in the Route
     for (let i = 0; i < route.moves.length; i++) {
         if (route.moves[i].edge.type === "Staircase") {
-            angles.push(-1); // Since Staircases do not have a direction, we assign a placeholder for their angle
+            console.warn("Please verify Staircase direction calculations!");
+            angles.push(Math.PI * 2 - (route.moves[i].edge as Staircase).direction * Math.PI / 2); // Since Staircases do not have a direction, we assign a placeholder for their angle
         } else {
             // The angle obtained from get_angle is pushed to angles
             angles.push(get_angle(i != 0 ? route.moves[i - 1].place : route.origin, route.moves[i].place));
@@ -89,7 +91,13 @@ export function gen_turns(route: Route): Direction[] {
     for (let i = 1; i < angles.length; i++) {
         let angle_delta = (angles[i] - angles[i-1] + Math.PI * 2) % (Math.PI * 2); // We use modular arithmetic to force angle_delta between 0 and 2*PI
         // We threshold values of angle_delta to yield the appropriate Direction
-        if (angle_delta < Math.PI / 4 || angle_delta > Math.PI * 7 / 4) {
+        if (route.moves[i].edge.type === "Staircase") {
+            let curr = route.moves[i].place as StairJunction;
+            let prev = (i != 0 ? route.moves[i - 1].place : route.origin) as StairJunction;
+
+            output.push(curr.floor > prev.floor ? Direction.Up : Direction.Down);
+        }
+        else if (angle_delta < Math.PI / 4 || angle_delta > Math.PI * 7 / 4) {
             output.push(Direction.Forward);
         }
         else if (angle_delta < Math.PI * 3 / 4) {

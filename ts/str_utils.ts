@@ -49,7 +49,7 @@ export function dir_gen(delta: graph.Direction): string {
         case graph.Direction.Right: return "Turn <strong>right</strong>, and ";
         case graph.Direction.Backwards: return "Turn <strong>around</strong>, and ";
     }
-    console.log(delta);
+    return "";
 }
 
 export function ordinal(n: number): string {

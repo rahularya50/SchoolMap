@@ -60,8 +60,8 @@ define(["require", "exports", "./map", "./map"], function (require, exports, map
     exports.path_finder = path_finder;
     function get_angle(origin, dest) {
         // SVG manipulation functions from map.ts obtain the coordinates of the origin and destination (dest) Places
-        let originCoords = map.getLocation(map_1.genMapId(origin), map_1.genMapId(dest));
-        let destCoords = map.getLocation(map_1.genMapId(dest), map_1.genMapId(origin));
+        let originCoords = map.getLocation(map_1.genMapId(origin), map_1.genMapId(dest), true);
+        let destCoords = map.getLocation(map_1.genMapId(dest), map_1.genMapId(origin), true);
         // Simple trigonometry yields the angle of the edge joining the two Places with respect to the x-axis
         return Math.atan2(destCoords[1] - originCoords[1], destCoords[0] - originCoords[0]);
     }
@@ -111,7 +111,6 @@ define(["require", "exports", "./map", "./map"], function (require, exports, map
         let prev = route.origin;
         let output = [];
         for (let move of route.moves) {
-            console.log(prev.id, move.place.id, move.edge.dist_between(prev, move.place));
             output.push([prev, move.place]);
             prev = move.place;
         }

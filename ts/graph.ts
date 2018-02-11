@@ -16,8 +16,8 @@ export class Edge {
         try {
             let startNodeName = genMapId(a);
             let endNodeName = genMapId(b);
-            let startNodeCoords = map.getLocation(startNodeName, endNodeName);
-            let endNodeCoords = map.getLocation(endNodeName, startNodeName);
+            let startNodeCoords = map.getLocation(startNodeName, endNodeName, true);
+            let endNodeCoords = map.getLocation(endNodeName, startNodeName, true);
 
             return Math.sqrt(
                 (startNodeCoords[0] - endNodeCoords[0]) ** 2 +

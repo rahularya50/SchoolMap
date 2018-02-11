@@ -103,13 +103,16 @@ define(["require", "exports", "./graph", "./elements"], function (require, expor
     s1 = new elements.Staircase("Peel Block Staircase 1", 0, 3 /* Left */);
     s1.places = [s1_0, s1_1];
     s2 = new elements.Staircase("Foyer Staircase", 0, 1 /* Right */);
-    s2.places = [foyer_staircase_0, foyer_staircase_1];
     let s3 = new elements.Staircase("Peel Block Staircase 2", 0, 3 /* Left */);
     s3.places = [s2_0, s2_1];
     graph.makeEdge(foyer_staircase_0, null, corridors_2[0]);
     graph.makeEdge(foyer_staircase_1, null, corridors_2[1]);
     s1_0.add_edge(s1);
     s1_1.add_edge(s1);
+    exports.locations["Foyer Staircase Base"] = foyer_staircase_0;
+    exports.locations["Foyer Staircase Top"] = foyer_staircase_1;
+    graph.makeEdge(foyer_staircase_0, foyer_staircase_1, s2);
+    console.log(s2.places);
     exports.locations["S10"] = s1_0;
     exports.locations["S11"] = s1_1;
     s2_0.add_edge(s3);
@@ -200,5 +203,11 @@ define(["require", "exports", "./graph", "./elements"], function (require, expor
     graph.makeEdge(null, peel_end_node, peel_back_corridor);
     graph.makeEdge(null, peel_end_node, corridors_3[0]);
     graph.makeEdge(peel_canteen_transfer, exports.locations["Canteen"], new graph.Edge([], "space", 3 /* Left */));
+    let ssc_entry_node = new elements.InvisiblePlace("SSC Entry Node", []);
+    graph.makeEdge(c2_1, ssc_entry_node, new graph.Edge([], "space", 0 /* Forward */));
+    let ssc_staircase = new elements.Staircase("Senior School Staircase 1", 4, 1 /* Right */);
+    graph.makeEdge(ssc_entry_node, ssc_staircase.get_floor(1), new graph.Edge([], "bridge", 0 /* Forward */));
+    exports.locations["IS201"] = new graph.Place("IS201", []);
+    graph.makeEdge(exports.locations["IS201"], ssc_staircase.get_floor(2), new graph.Edge([], "corridor", 0 /* Forward */));
 });
 //# sourceMappingURL=build.js.map

@@ -65,8 +65,8 @@ export function path_finder(start_place: graph.Place, end_place: graph.Place): R
 
 function get_angle(origin: Place, dest: Place) {
     // SVG manipulation functions from map.ts obtain the coordinates of the origin and destination (dest) Places
-    let originCoords = map.getLocation(genMapId(origin), genMapId(dest));
-    let destCoords = map.getLocation(genMapId(dest), genMapId(origin));
+    let originCoords = map.getLocation(genMapId(origin), genMapId(dest), true);
+    let destCoords = map.getLocation(genMapId(dest), genMapId(origin), true);
 
     // Simple trigonometry yields the angle of the edge joining the two Places with respect to the x-axis
     return Math.atan2(destCoords[1] - originCoords[1], destCoords[0] - originCoords[0]);
@@ -121,7 +121,6 @@ export function edgePair(route: Route): [graph.Place, graph.Place][] {
     let prev = route.origin;
     let output: [graph.Place, graph.Place][] = [];
     for (let move of route.moves) {
-        console.log(prev.id, move.place.id, move.edge.dist_between(prev, move.place));
         output.push([prev, move.place]);
         prev = move.place;
     }

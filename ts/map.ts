@@ -13,7 +13,8 @@ const STAIRCASES = [
     "Language Block Staircase",
     "Science Block Staircase",
     "Peel Block Staircase",
-    "Foyer Staircase"];
+    "Foyer Staircase",
+    "Senior School Staircase"];
 
 // Initializing SVGs after page load
 window.onload = () => {
@@ -42,19 +43,20 @@ window.onload = () => {
 };
 
 // Focuses the appropriate SVG on an edge joining designated Nodes.
-export function focusMap(start: Place, end: Place) {
+export function focusMap(start: Place, end: Place, force_real: boolean = false) {
     // Determining the floor of the input Place ids, as described previously
     let startName = genMapId(start);
     let endName = genMapId(end);
 
-    let floor = Math.max(getFloor(startName), getFloor(endName));
+    let floor = Math.max(getFloor(startName, force_real), getFloor(endName, force_real));
     if (floor < STAIRCASES.length) {
         let stair_start = start as StairJunction;
         let stair_end = end as StairJunction;
         (<any> focusMapOnPoints)(...getLocation("Target_" + stair_start.floor, endName),
             ...getLocation("Target_" + stair_end.floor, startName), floor, 130, 50);
     } else {
-        (<any> focusMapOnPoints)(...getLocation(startName, endName), ...getLocation(endName, startName), floor, 50);
+        console.log("Focusing on real map");
+        (<any> focusMapOnPoints)(...getLocation(startName, endName, force_real), ...getLocation(endName, startName, force_real), floor, 50);
     }
 }
 
@@ -80,33 +82,27 @@ function focusMapOnPoints(startX: number, startY: number, endX: number, endY: nu
 }
 
 // Obtaining the SVG object with the input name. Since some elements are on multiple floors (such as StairJunctions), a second element on the same floor (hint) is included. Typically, "place" and "hint" are the start and end Places on an Edge. It is rare for two nodes on an Edge to both be StairJunctions for different Staircases, so this method should always output the correct Node when such a Node exists.
-function getSvgNode(place: string, hint: string): SVGUseElement {
+function getSvgNode(place: string, hint: string, force_real: boolean = false): SVGUseElement {
     // Since getFloor returns -1 when the floor of a Place is indeterminate, Math.max is used to obtain a target floor whenever possible. The appropriate SVG is then identified from svgDocs, and the correct Node is extracted based on its id
-    const targetFloor = Math.max(getFloor(place), getFloor(hint));
-    console.log(`Floor is ${targetFloor}`);
+    const targetFloor = Math.max(getFloor(place, force_real), getFloor(hint, force_real));
+    // console.log(`Floor is ${targetFloor}`);
     return svgDocs[targetFloor].getElementById(place) as any as SVGUseElement;
 }
 
 // getFloor identifies the floor a particular Place is on, returning -1 when said Place may lie on multiple floors
-export function getFloor(place: string): number {
+export function getFloor(place: string, force_real: boolean = false): number {
     for (let i = 0; i < STAIRCASES.length; ++i) {
-        if (STAIRCASES[i].split(" ").join("_") == place.substr(0, STAIRCASES[i].length)) {
+        if (!force_real && STAIRCASES[i].split(" ").join("_") == place.substr(0, STAIRCASES[i].length)) {
             return i;
         }
     }
-    let out = -1;
     for (let i = 0; i < FLOORS; i++) {
         // Determine whether the place is contained on the ith floor by inspecting the corresponding SVG
         if (svgDocs[STAIRCASES.length + i].getElementById(place) !== null) {
-            if (out != -1) {
-                // If the place has been previously found on a different floor, the answer must be indeterminate
-                return -1;
-            }
-            // Otherwise, record the floor where the place has been found
-            out = i;
+            return STAIRCASES.length + i;
         }
     }
-    return out == -1 ? -1 : STAIRCASES.length + out;
+    return -1;
 }
 
 // Due to the nature of SVGs generated using Adobe Illustrator CS6, ids cannot contain spaces. Since the ids of some Places contain spaces, this function replaces them with underscores.
@@ -115,14 +111,15 @@ export function genMapId(place: Place) {
 }
 
 // Extracting the Nodes corresponding to given Place ids and calling appropriate SVG manipulation functions
-export function drawEdge(start: string, end: string) {
+export function drawEdge(start: string, end: string, force_real: boolean = false) {
     // Determining the floor of the input Place ids, as described previously
-    let floor = Math.max(getFloor(start), getFloor(end));
+    let floor = Math.max(getFloor(start, force_real), getFloor(end, force_real));
+    console.log("Floor xcv is: " + floor);
     // Verifying that the Places are on the same floor
-    if (floor >= STAIRCASES.length) {
+    if (floor >= STAIRCASES.length || force_real) {
         console.log(`Drawing edge between ${start} and ${end}!`);
         // Calling raw SVG manipulation function
-        drawSVGEdge(getSvgNode(start, end), getSvgNode(end, start), svgDocs[floor].getElementById("Edges"));
+        drawSVGEdge(getSvgNode(start, end, force_real), getSvgNode(end, start, force_real), svgDocs[floor].getElementById("Edges"));
         // showFloor(getFloor(start));
     } else {
         console.log(`Drawing edge on floor ${floor}`);
@@ -139,8 +136,8 @@ export function clearMap() {
 }
 
 // Determines the coordinates of a particular Place, using a hint analogously to getSvgNode
-export function getLocation(place: string, hint: string): [number, number] {
-    return getCoords(getSvgNode(place, hint));
+export function getLocation(place: string, hint: string, force_real:boolean = false): [number, number] {
+    return getCoords(getSvgNode(place, hint, force_real));
 }
 
 // Extracts the coordinates of an SVGElement (typically a "Node") using SVG transform matricse

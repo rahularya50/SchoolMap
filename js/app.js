@@ -14,12 +14,13 @@ define(["require", "exports", "./graph_operations", "./build", "./map", "./str_u
         let startName = map_1.genMapId(edgePairs[index][0]);
         let endName = map_1.genMapId(edgePairs[index][1]);
         // Identify the floor to be displayed based on the Edge's start and end Places
-        let floor = Math.max(map.getFloor(endName), map.getFloor(startName)); // map.getFloor returns -1 if the result is inconclusive (i.e. for StairJunctions on Staircases spanning multiple floors). By taking the maximum, the target floor can be identified even if one Place is on multiple floors.
+        let force_real = !(startName == endName);
+        let floor = Math.max(map.getFloor(endName, force_real), map.getFloor(startName, force_real)); // map.getFloor returns -1 if the result is inconclusive (i.e. for StairJunctions on Staircases spanning multiple floors). By taking the maximum, the target floor can be identified even if one Place is on multiple floors.
         // Verify that the floor has been identified correctly and that the results from map.getFloor are consistent
         map.showFloor(floor); // Load and display the SVG corresponding to the identified floor
         console.log(`Floors are ${map.getFloor(startName)} and ${map.getFloor(endName)}`);
         console.log(`Focusing on ${startName} and ${endName}`);
-        map.focusMap(edgePairs[index][0], edgePairs[index][1]); // Pan and zoom the SVG map to focus on the desired Edge
+        map.focusMap(edgePairs[index][0], edgePairs[index][1], force_real); // Pan and zoom the SVG map to focus on the desired Edge
         // Identify the icon to display any changes in Direction
         let url;
         let delta = turns[index];
@@ -72,6 +73,13 @@ define(["require", "exports", "./graph_operations", "./build", "./map", "./str_u
             let origin = $("#id_start_location").find("option:selected").text();
             let destination = $("#id_end_location").find("option:selected").text();
             route = graph_operations.path_finder(locations[origin], locations[destination]);
+            let prev = route.origin;
+            for (let move of route.moves) {
+                console.log("Move ", prev.id, move.place.id, move.edge.dist_between(prev, move.place));
+                prev = move.place;
+            }
+            console.log("Move Total distance: " + route.distance);
+            console.log("Move ");
             $("#inp_form").css("display", "none");
             map.clearMap();
             console.log("Start");
@@ -79,10 +87,10 @@ define(["require", "exports", "./graph_operations", "./build", "./map", "./str_u
                 console.log(pair[0].id, pair[1].id, map.getFloor(map.genMapId(pair[0])), map.getFloor(map.genMapId(pair[1])));
                 if (pair[0].id === pair[1].id) {
                     let stair_pair = pair;
-                    map.drawEdge(map.genMapId(pair[0]) + stair_pair[0].floor, map.genMapId(stair_pair[1]) + stair_pair[1].floor);
+                    map.drawEdge(map.genMapId(pair[0]) + stair_pair[0].floor, map.genMapId(stair_pair[1]) + stair_pair[1].floor, false);
                 }
                 else {
-                    map.drawEdge(map.genMapId(pair[0]), map.genMapId(pair[1]));
+                    map.drawEdge(map.genMapId(pair[0]), map.genMapId(pair[1]), true);
                 }
             }
             index = 0;

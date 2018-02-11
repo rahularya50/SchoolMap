@@ -4,8 +4,14 @@ define(["require", "exports", "motion"], function (require, exports, motion) {
     let svgs = []; // Stores the SVG wrapper elements for each floor
     let svgDocs = []; // Stores the SVG elements for each floor
     let currVisible = 0;
-    const FLOORS = 5;
-    const STAIRCASES = ["Link Block Staircase", "Language Block Staircase", "Science Block Staircase", "Peel Block Staircase"];
+    const FLOORS = 8;
+    const STAIRCASES = [
+        "Link Block Staircase",
+        "Language Block Staircase",
+        "Science Block Staircase",
+        "Peel Block Staircase",
+        "Foyer Staircase"
+    ];
     // Initializing SVGs after page load
     window.onload = () => {
         for (let i = 0; i < STAIRCASES.length; ++i) {
@@ -40,7 +46,7 @@ define(["require", "exports", "motion"], function (require, exports, motion) {
         if (floor < STAIRCASES.length) {
             let stair_start = start;
             let stair_end = end;
-            focusMapOnPoints(...getLocation("Target_" + stair_start.floor, endName), ...getLocation("Target_" + stair_end.floor, startName), floor, 130, 0);
+            focusMapOnPoints(...getLocation("Target_" + stair_start.floor, endName), ...getLocation("Target_" + stair_end.floor, startName), floor, 130, 50);
         }
         else {
             focusMapOnPoints(...getLocation(startName, endName), ...getLocation(endName, startName), floor, 50);

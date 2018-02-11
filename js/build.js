@@ -42,11 +42,12 @@ define(["require", "exports", "./graph", "./elements"], function (require, expor
         ["ME2", "SC301", "3rd Floor Prep Room", "SC302", "SC303"],
         ["Science Office", "SC401", "SC402", "SC403", "SC404"],
         ["ME1", "SC501", "5th Floor Prep Room", "SC502", "SC503"],
-        ["Science Block Garden"]]; // TODO: Add ME1/2 + Science Office routing
+        ["Roof Garden"]]; // TODO: Add ME1/2 + Science Office routing
     for (let i = 1; i < 7; i++) {
         corridors.push(new elements.Corridor(science_block[i], exports.locations, 1 /* Right */));
         graph.makeEdge(new elements.InvisiblePlace("Science Block Intersection " + i, []), null, corridors[i - 1]);
     }
+    corridors[5].name = "path";
     let science_passthrough_intersection = new elements.InvisiblePlace("Science Block Passthrough Intersection", []);
     exports.locations["Sci-New Block Passthrough"] = new graph.Place("Sci-New Block Passthrough", []);
     graph.makeEdge(science_passthrough_intersection, corridors[1].places[0], new elements.Corridor([], exports.locations, 0 /* Forward */));
@@ -97,15 +98,20 @@ define(["require", "exports", "./graph", "./elements"], function (require, expor
     let s1_1 = new elements.StairJunction(1, [corridors_1[1]], "Peel Block Staircase 1");
     let s2_0 = new elements.StairJunction(0, [corridors_2[0]], "Peel Block Staircase 2");
     let s2_1 = new elements.StairJunction(1, [corridors_3[1]], "Peel Block Staircase 2");
-    s1 = new graph.Edge([s1_0, s1_1], "Peel Block Staircase 1", 3 /* Left */, "Staircase");
-    s2 = new graph.Edge([exports.locations["Foyer"], exports.locations["LRC Canteen"]], "Foyer Staircase", 1 /* Right */, "Staircase");
-    let s3 = new graph.Edge([s2_0, s2_1], "Peel Block Staircase 2", 1 /* Right */, "Staircase");
+    let foyer_staircase_0 = new elements.StairJunction(0, [corridors_2[0]], "Foyer Staircase");
+    let foyer_staircase_1 = new elements.StairJunction(1, [corridors_2[1]], "Foyer Staircase");
+    s1 = new elements.Staircase("Peel Block Staircase 1", 0, 3 /* Left */);
+    s1.places = [s1_0, s1_1];
+    s2 = new elements.Staircase("Foyer Staircase", 0, 1 /* Right */);
+    s2.places = [foyer_staircase_0, foyer_staircase_1];
+    let s3 = new elements.Staircase("Peel Block Staircase 2", 0, 3 /* Left */);
+    s3.places = [s2_0, s2_1];
+    graph.makeEdge(foyer_staircase_0, null, corridors_2[0]);
+    graph.makeEdge(foyer_staircase_1, null, corridors_2[1]);
     s1_0.add_edge(s1);
     s1_1.add_edge(s1);
     exports.locations["S10"] = s1_0;
     exports.locations["S11"] = s1_1;
-    exports.locations["Foyer"].add_edge(s2);
-    exports.locations["LRC Canteen"].add_edge(s2);
     s2_0.add_edge(s3);
     s2_1.add_edge(s3);
     let c1_0 = new elements.InvisiblePlace("Peel Block Corner Node 10", [corridors_1[0], corridors_2[0]]);

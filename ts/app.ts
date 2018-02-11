@@ -61,8 +61,6 @@ function focusMap(route: graph_operations.Route, index: number) {
     // Display the identified icon in a HTML <img> tag
     $("#arrow-img").attr("src", url);
 
-    console.log(floor);
-
     // Write the corresponding message text to a HTML <div> tag
     document.getElementById("result-text").innerHTML = moveDescs[index];
 }

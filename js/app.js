@@ -52,26 +52,35 @@ define(["require", "exports", "./graph_operations", "./build", "./map", "./str_u
     }
     function init() {
         $("#destination-select").css("display", "none");
-        $("#map").css("display", "");
         $("#result-text").css("display", "none");
         $("#top").css("display", "none");
+        $("#bottom").css("display", "none");
         let locations = build.locations; //A list of location strings
         let index = 0;
         let route = null;
         let locationData = [];
-        for (let i = 0; i < Object.keys(locations).length; i++) {
-            locationData.push({ id: i, text: Object.keys(locations)[i] });
+        let keys = Object.keys(locations);
+        for (let i = 0; i < keys.length; i++) {
+            locationData.push({ id: i, text: keys[i] });
         }
         $(`.selector`).select2({ data: locationData });
-        $("#id_start_location").on("change", () => {
+        let params = new URLSearchParams(location.search.slice(1));
+        if (params.get('origin')) {
+            $(`#id_start_location`).val(keys.indexOf(params.get('origin'))).trigger("change");
+            $("#destination-select").css("display", "block");
+        }
+        $("#id_start_location").on("select2:close", () => {
             $("#destination-select").css("display", "block");
         });
-        $("#id_end_location").on("change", () => {
-            $("#map").css("display", "");
+        function start(origin = null, destination = null) {
             $("#result-text").css("display", "");
             $("#top").css("display", "");
-            let origin = $("#id_start_location").find("option:selected").text();
-            let destination = $("#id_end_location").find("option:selected").text();
+            $("#bottom").css("display", "");
+            console.log(`Routing from ${origin} to ${destination}`);
+            if (!origin) {
+                origin = $("#id_start_location").find("option:selected").text();
+                destination = $("#id_end_location").find("option:selected").text();
+            }
             route = graph_operations.path_finder(locations[origin], locations[destination]);
             let prev = route.origin;
             for (let move of route.moves) {
@@ -81,6 +90,7 @@ define(["require", "exports", "./graph_operations", "./build", "./map", "./str_u
             console.log("Move Total distance: " + route.distance);
             console.log("Move ");
             $("#inp_form").css("display", "none");
+            $("#suggestions").css("display", "none");
             map.clearMap();
             console.log("Start");
             for (let pair of graph_operations.edgePair(route)) {
@@ -95,6 +105,13 @@ define(["require", "exports", "./graph_operations", "./build", "./map", "./str_u
             }
             index = 0;
             focusMap(route, index);
+        }
+        $("#id_end_location").on("select2:close", () => {
+            start();
+        });
+        $(".suggestion").on("click", (event) => {
+            console.log("suggestion selected", event.target);
+            start($(event.currentTarget).data("origin"), $(event.currentTarget).data("destination"));
         });
         $("#previous_btn").on("click", prev);
         function prev() {
@@ -109,11 +126,12 @@ define(["require", "exports", "./graph_operations", "./build", "./map", "./str_u
         $("#back_btn").on("click", () => {
             map.showFloor(-1);
             $("#inp_form").css("display", "");
+            $("#suggestions").css("display", "");
             $("#destination-select").css("display", "none");
-            $("#map").css("display", "");
             $("#result-text").css("display", "none");
             $("#origin-select").css("display", "");
             $("#top").css("display", "none");
+            $("#bottom").css("display", "none");
         });
         let swipeHammer = new Hammer($("#top")[0]);
         swipeHammer.on("swipeleft", ev => next());

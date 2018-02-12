@@ -64,6 +64,7 @@ span {
     bottom: 10vh;
     z-index: auto;
     overflow: hidden;
+    pointer-events:none;
 }
 
 #heading {
@@ -121,4 +122,15 @@ span {
 #next_btn {
     right: 0;
     position: absolute;
+}
+
+#suggested_header {
+    text-align: center;
+}
+
+.suggestion {
+    width: 90%;
+    margin-left: 5%;
+    border: 1px solid gray;
+    margin-bottom: 10px;
 }

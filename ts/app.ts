@@ -70,9 +70,9 @@ function focusMap(route: graph_operations.Route, index: number) {
 
 function init() {
     $("#destination-select").css("display", "none");
-    $("#map").css("display", "");
     $("#result-text").css("display", "none");
     $("#top").css("display", "none");
+    $("#bottom").css("display", "none");
 
     let locations = build.locations; //A list of location strings
 
@@ -81,23 +81,35 @@ function init() {
 
     let locationData = [];
 
-    for (let i = 0; i < Object.keys(locations).length; i++) {
-        locationData.push({id: i, text: Object.keys(locations)[i]});
+    let keys = Object.keys(locations);
+
+    for (let i = 0; i < keys.length; i++) {
+        locationData.push({id: i, text: keys[i]});
     }
 
     $(`.selector`).select2({data: locationData});
 
-    $("#id_start_location").on("change", () => {
+    let params = new URLSearchParams(location.search.slice(1));
+    if (params.get('origin')) {
+        $(`#id_start_location`).val(keys.indexOf(params.get('origin'))).trigger("change");
+        $("#destination-select").css("display", "block");
+    }
+
+    $("#id_start_location").on("select2:close", () => {
         $("#destination-select").css("display", "block");
     });
 
-    $("#id_end_location").on("change", () => {
-        $("#map").css("display", "");
+    function start(origin: string = null, destination: string = null) {
         $("#result-text").css("display", "");
         $("#top").css("display", "");
+        $("#bottom").css("display", "");
 
-        let origin = $("#id_start_location").find("option:selected").text();
-        let destination = $("#id_end_location").find("option:selected").text();
+        console.log(`Routing from ${origin} to ${destination}`);
+
+        if (!origin) {
+            origin = $("#id_start_location").find("option:selected").text();
+            destination = $("#id_end_location").find("option:selected").text();
+        }
 
         route = graph_operations.path_finder(locations[origin], locations[destination]);
         let prev = route.origin;
@@ -109,6 +121,8 @@ function init() {
         console.log("Move ");
 
         $("#inp_form").css("display", "none");
+        $("#suggestions").css("display", "none");
+
 
         map.clearMap();
 
@@ -127,6 +141,15 @@ function init() {
 
         index = 0;
         focusMap(route, index);
+    }
+
+    $("#id_end_location").on("select2:close", () => {
+        start();
+    });
+
+    $(".suggestion").on("click", (event) => {
+        console.log("suggestion selected", event.target);
+        start($(event.currentTarget).data("origin"), $(event.currentTarget).data("destination"));
     });
 
     $("#previous_btn").on("click", prev);
@@ -146,11 +169,12 @@ function init() {
     $("#back_btn").on("click", () => {
         map.showFloor(-1);
         $("#inp_form").css("display", "");
+        $("#suggestions").css("display", "");
         $("#destination-select").css("display", "none");
-        $("#map").css("display", "");
         $("#result-text").css("display", "none");
         $("#origin-select").css("display", "");
         $("#top").css("display", "none");
+        $("#bottom").css("display", "none");
     });
 
     let swipeHammer = new Hammer($("#top")[0]);

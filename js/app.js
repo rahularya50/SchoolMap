@@ -91,6 +91,7 @@ define(["require", "exports", "./graph_operations", "./build", "./map", "./str_u
             console.log("Move ");
             $("#inp_form").css("display", "none");
             $("#suggestions").css("display", "none");
+            $("#main").css("pointer-events", "all");
             map.clearMap();
             console.log("Start");
             for (let pair of graph_operations.edgePair(route)) {
@@ -132,6 +133,7 @@ define(["require", "exports", "./graph_operations", "./build", "./map", "./str_u
             $("#origin-select").css("display", "");
             $("#top").css("display", "none");
             $("#bottom").css("display", "none");
+            $("#main").css("pointer-events", "none");
         });
         let swipeHammer = new Hammer($("#top")[0]);
         swipeHammer.on("swipeleft", ev => next());

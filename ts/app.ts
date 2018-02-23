@@ -123,6 +123,7 @@ function init() {
         $("#inp_form").css("display", "none");
         $("#suggestions").css("display", "none");
 
+        $("#main").css("pointer-events", "all");
 
         map.clearMap();
 
@@ -175,6 +176,7 @@ function init() {
         $("#origin-select").css("display", "");
         $("#top").css("display", "none");
         $("#bottom").css("display", "none");
+        $("#main").css("pointer-events", "none");
     });
 
     let swipeHammer = new Hammer($("#top")[0]);

@@ -61,7 +61,9 @@ define(["require", "exports", "./graph_operations", "./build", "./map", "./str_u
         let locationData = [];
         let keys = Object.keys(locations);
         for (let i = 0; i < keys.length; i++) {
-            locationData.push({ id: i, text: keys[i] });
+            if (map.getFloor(map.genMapId(locations[keys[i]])) !== -1) {
+                locationData.push({ id: i, text: keys[i] });
+            }
         }
         $(`.selector`).select2({ data: locationData });
         let params = new URLSearchParams(location.search.slice(1));
@@ -139,6 +141,10 @@ define(["require", "exports", "./graph_operations", "./build", "./map", "./str_u
         swipeHammer.on("swipeleft", ev => next());
         swipeHammer.on("swiperight", ev => prev());
     }
-    init();
+    // Initializing SVGs after page load
+    window.onload = () => {
+        map.initialize_svgs();
+        init();
+    };
 });
 //# sourceMappingURL=app.js.map

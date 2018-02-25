@@ -16,31 +16,30 @@ const STAIRCASES = [
     "Foyer Staircase",
     "Senior School Staircase"];
 
-// Initializing SVGs after page load
-window.onload = () => {
+export function initialize_svgs() {
     for (let i = 0; i < STAIRCASES.length; ++i) {
         svgs.push(<HTMLIFrameElement>document.getElementById(STAIRCASES[i]));
-        svgDocs.push(null);
+        svgDocs.push(svgs[i].contentDocument);
         $(svgs[i]).ready(function () {
             svgDocs[i] = svgs[i].contentDocument;
             // Initializing a Hammer.js touch receiver to aid user interaction
             let hammer = new Hammer(<HTMLElement><any>svgDocs[i].getElementsByTagName("svg")[0]);
-            hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+            hammer.get('pan').set({direction: Hammer.DIRECTION_ALL});
             hammer.on("pan panstart panend", motion.handleTouchEvent);
         });
     }
     for (let i = STAIRCASES.length; i < STAIRCASES.length + FLOORS; i++) {
         svgs.push(<HTMLIFrameElement>document.getElementById(`id_map_${i + 1 - STAIRCASES.length}`));
-        svgDocs.push(null);
+        svgDocs.push(svgs[i].contentDocument);
         $(svgs[i]).ready(function () {
             svgDocs[i] = svgs[i].contentDocument;
             // Initializing a Hammer.js touch receiver to aid user interaction
             let hammer = new Hammer(<HTMLElement><any>svgDocs[i].getElementsByTagName("svg")[0]);
-            hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+            hammer.get('pan').set({direction: Hammer.DIRECTION_ALL});
             hammer.on("pan panstart panend", motion.handleTouchEvent);
         });
     }
-};
+}
 
 // Focuses the appropriate SVG on an edge joining designated Nodes.
 export function focusMap(start: Place, end: Place, force_real: boolean = false) {

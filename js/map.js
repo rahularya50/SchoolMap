@@ -13,11 +13,10 @@ define(["require", "exports", "motion"], function (require, exports, motion) {
         "Foyer Staircase",
         "Senior School Staircase"
     ];
-    // Initializing SVGs after page load
-    window.onload = () => {
+    function initialize_svgs() {
         for (let i = 0; i < STAIRCASES.length; ++i) {
             svgs.push(document.getElementById(STAIRCASES[i]));
-            svgDocs.push(null);
+            svgDocs.push(svgs[i].contentDocument);
             $(svgs[i]).ready(function () {
                 svgDocs[i] = svgs[i].contentDocument;
                 // Initializing a Hammer.js touch receiver to aid user interaction
@@ -28,7 +27,7 @@ define(["require", "exports", "motion"], function (require, exports, motion) {
         }
         for (let i = STAIRCASES.length; i < STAIRCASES.length + FLOORS; i++) {
             svgs.push(document.getElementById(`id_map_${i + 1 - STAIRCASES.length}`));
-            svgDocs.push(null);
+            svgDocs.push(svgs[i].contentDocument);
             $(svgs[i]).ready(function () {
                 svgDocs[i] = svgs[i].contentDocument;
                 // Initializing a Hammer.js touch receiver to aid user interaction
@@ -37,7 +36,8 @@ define(["require", "exports", "motion"], function (require, exports, motion) {
                 hammer.on("pan panstart panend", motion.handleTouchEvent);
             });
         }
-    };
+    }
+    exports.initialize_svgs = initialize_svgs;
     // Focuses the appropriate SVG on an edge joining designated Nodes.
     function focusMap(start, end, force_real = false) {
         // Determining the floor of the input Place ids, as described previously

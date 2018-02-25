@@ -84,7 +84,9 @@ function init() {
     let keys = Object.keys(locations);
 
     for (let i = 0; i < keys.length; i++) {
-        locationData.push({id: i, text: keys[i]});
+        if (map.getFloor(map.genMapId(locations[keys[i]])) !== -1) {
+            locationData.push({id: i, text: keys[i]});
+        }
     }
 
     $(`.selector`).select2({data: locationData});
@@ -184,4 +186,8 @@ function init() {
     swipeHammer.on("swiperight", ev => prev());
 }
 
-init();
+// Initializing SVGs after page load
+window.onload = () => {
+    map.initialize_svgs();
+    init();
+};

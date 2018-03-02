@@ -26,19 +26,30 @@ span {
 #result-img {
     box-sizing: border-box;
     font-family: sans-serif;
-    width: 30%;
+    width: 25%;
     height: 100%;
     text-align: center;
+    float: left;
+}
+
+#exit_button {
+    box-sizing: border-box;
+    font-family: sans-serif;
+    width: auto;
+    height: auto;
+    float: left;
+    padding-top: 13%;
+    padding-left: 4%;
 }
 
 #result-text {
-    width: 60%;
+    width: 55%;
     top: 50%;
     transform: translateY(-50%);
-    position: absolute;
-    right: 0;
-    font-size: large;
-    padding-right: 10%;
+    /* font-size: large; */
+    padding-top: 35%;
+    float: left;
+    box-sizing: border-box;
 }
 
 #arrow-img {
@@ -108,7 +119,8 @@ span {
 }
 
 #back_btn {
-    left: 0;
+    width: 10%;
+    /* right: 0; */
     position: absolute;
 }
 
